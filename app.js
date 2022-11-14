@@ -5,12 +5,23 @@
  * Data visualization
  */
 
+
+console.log("load a model?")
+tf.loadLayersModel('https://foo.bar/tfjs_artifacts/model.json').then(model => {
+  console.log("I have a model")
+})
+  
+
 /* globals Vue, p5*/
 
 window.addEventListener("load", function () {
   
   
+// JavaScript
 
+
+
+  
 var canvas = document.getElementById('canvas');
 var context = canvas.getContext('2d');
 var video = document.getElementById('videoElement');
