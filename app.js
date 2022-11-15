@@ -1,4 +1,4 @@
- const CANVAS_WIDTH = 400;
+ const CANVAS_WIDTH = 500;
       const CANVAS_HEIGHT = 300;
 
 window.addEventListener("load", function () {
@@ -8,6 +8,11 @@ window.addEventListener("load", function () {
   //------------------------------------------------------
   // VUE!!!
   // Create a new vue interface
+  
+//   This has to stay outside of Vue, 
+  // otherwise the Vector2d extention-of-arrays 
+  // and the Vue extension of datatypes will fight
+  const face = new Face()
 
   new Vue({
     template: `<div id="app">
@@ -43,14 +48,16 @@ window.addEventListener("load", function () {
           // Draw something
           p.circle(0, 0, 100);
           
-          let facePts = this.facePredictions[0]?.mesh
+          let facePts = this.facePredictions[0]?.scaledMesh
           let box = this.facePredictions[0]?.boundingBox
           
-         if (facePts) {
-           facePts.forEach(pt => {
-             p.circle(pt[0], pt[1], 2)
-           })
-         }
+         // if (facePts) {
+         //   facePts.forEach(pt => {
+         //     p.circle(pt[0], pt[1], 2)
+         //   })
+         // }
+          
+         face.drawDebug(p)
         };
 
         p.mouseClicked = () => {
@@ -84,14 +91,16 @@ window.addEventListener("load", function () {
         facePredictionCount++
         // console.log("new face")
         this.facePredictions = results;
-        if (facePredictionCount%10==0)
-          console.log(facePredictionCount, this.facePredictions)
+        face.setTo(this.facePredictions[0])
+        // if (facePredictionCount%10==0)
+        //   console.log(facePredictionCount, this.facePredictions)
       });
     },
 
     // We will use your data object as the data for Vue
     data() {
       return {
+        
         facePredictions: [],
       };
     },
