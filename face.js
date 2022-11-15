@@ -149,10 +149,14 @@ class Face {
         face: contourListToVertices(side_indices.faceRings),
         eye: contourListToVertices(side_indices.eyeRings),
         eyeCenter: new Vector2D(0,0),
+        eyeWidth: 50,
+        eyeBlink: 0
         
       };
-      this.sides[i].innerEye = this.sides[i].eye[3][0]
-      this.sides[i].outerEye = this.sides[i].eye[3][8]
+      this.sides[i].eyeInner = this.sides[i].eye[4][0]
+      this.sides[i].eyeOuter = this.sides[i].eye[4][8]
+      this.sides[i].eyeTop = this.sides[i].eye[4][4]
+      this.sides[i].eyeBottom = this.sides[i].eye[4][12]
     }
   }
 
@@ -165,13 +169,19 @@ class Face {
       });
     }
     
-// Update various calculateion
+// Update various calculations
+    this.sides.forEach(side => {
+      side.eyeCenter.setToLerp(side.eyeInner, side.eyeOuter, .5)
+      side.eyeWidth = side.eyeInner.getDistanceTo(side.eyeOuter)
+      side.eyeHeight = side.eyeTop.getDistanceTo(side.eyeBottom)
+      side.blink = side.eyeHeight/side.eyeWidth
+    })
   }
 
   drawDebug(p) {
     let t = p.millis()*.001
     this.points.forEach((pt) => {
-      // p.circle(...pt, 4)
+      p.circle(...pt, 4)
       // p.text(pt.index, ...pt)
     });
     
@@ -179,9 +189,11 @@ class Face {
 
     this.sides.forEach((side, sideIndex) => {
       
-      p.circle(...side.innerEye, 3)
-      p.circle(...side.outerEye, 3)
-       p.circle(...side., 3)
+      p.circle(...side.eyeCenter, side.eyeWidth*.2)
+      p.circle(...side.eyeInner, 3)
+      p.circle(...side.eyeOuter, 3)
+      p.circle(...side.eyeTop, 3)
+      p.circle(...side.eyeBottom, 3)
       
       // Draw eye contours
       side.eye.forEach((contour, cIndex) => {
@@ -189,10 +201,10 @@ class Face {
        
         drawContour(p, contour, {
           close: true,
-          lerpToPoint: new Vector2D(0,0),
+          lerpToPoint:side.eyeCenter,
           // lerpPct: Math.sin(t),
           lerpPct(index, pct, pt) {
-            return .5 + .3*Math.sin(pct*2)
+            return Math.sin(pct*25) - 2
           }
         });
       });
@@ -223,18 +235,12 @@ function drawContour(p, contour, settings = {}) {
       temp.setToLerp(pt, settings.lerpToPoint, pct);
       toUse = temp
     }
+    
+    if (settings.curve && (ptIndex == 0 || ptIndex == contour.length-1)) {
+      p.vertex(...toUse);
+    }
     p.vertex(...toUse);
   });
-
-  // Close the path
-  p.endShape(settings.close ? p.CLOSE : undefined);
-}
-
-function drawContourCurve(p, contour, settings = {}) {
-  p.beginShape();
-  p.vertex(...contour[0]);
-  contour.forEach((pt) => p.curveVertex(...pt));
-  p.vertex(...contour[contour.length - 1]);
 
   // Close the path
   p.endShape(settings.close ? p.CLOSE : undefined);
