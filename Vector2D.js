@@ -96,6 +96,11 @@ class Vector2D extends Array {
     this[1] = r * Math.sin(theta);
     return this
   }
+  
+  setToLerp(v0, v1, pct) {
+    this[0] = v0[0]*(1-pct) + v1[0]*(pct)
+    this[1] = v0[1]*(1-pct) + v1[1]*(pct)
+  }
 
   setToRandom(x0, x1, y0, y1) {
     if (
