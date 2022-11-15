@@ -148,15 +148,14 @@ class Face {
         // Copy over the side and
         face: contourListToVertices(side_indices.faceRings),
         eye: contourListToVertices(side_indices.eyeRings),
-        eyeCenter: new Vector2D(0,0),
+        eyeCenter: new Vector2D(0, 0),
         eyeWidth: 50,
-        eyeBlink: 0
-        
+        eyeBlink: 0,
       };
-      this.sides[i].eyeInner = this.sides[i].eye[4][0]
-      this.sides[i].eyeOuter = this.sides[i].eye[4][8]
-      this.sides[i].eyeTop = this.sides[i].eye[4][4]
-      this.sides[i].eyeBottom = this.sides[i].eye[4][12]
+      this.sides[i].eyeInner = this.sides[i].eye[4][0];
+      this.sides[i].eyeOuter = this.sides[i].eye[4][8];
+      this.sides[i].eyeTop = this.sides[i].eye[4][4];
+      this.sides[i].eyeBottom = this.sides[i].eye[4][12];
     }
   }
 
@@ -168,59 +167,55 @@ class Face {
         pt.setTo(predictedPts[index]);
       });
     }
-    
-// Update various calculations
-    this.sides.forEach(side => {
-      side.eyeCenter.setToLerp(side.eyeInner, side.eyeOuter, .5)
-      side.eyeWidth = side.eyeInner.getDistanceTo(side.eyeOuter)
-      side.eyeHeight = side.eyeTop.getDistanceTo(side.eyeBottom)
-      side.blink = side.eyeHeight/side.eyeWidth
-    })
+
+    // Update various calculations
+    this.sides.forEach((side) => {
+      side.eyeCenter.setToLerp(side.eyeInner, side.eyeOuter, 0.5);
+      side.eyeWidth = side.eyeInner.getDistanceTo(side.eyeOuter);
+      side.eyeHeight = side.eyeTop.getDistanceTo(side.eyeBottom);
+      side.blink = side.eyeHeight / side.eyeWidth;
+    });
   }
 
   drawDebug(p) {
-    let t = p.millis()*.001
+    let t = p.millis() * 0.001;
     this.points.forEach((pt) => {
-      p.circle(...pt, 4)
+      p.circle(...pt, 4);
       // p.text(pt.index, ...pt)
     });
-    
-    
 
     this.sides.forEach((side, sideIndex) => {
-      
-      p.circle(...side.eyeCenter, side.eyeWidth*.2)
-      p.circle(...side.eyeInner, 3)
-      p.circle(...side.eyeOuter, 3)
-      p.circle(...side.eyeTop, 3)
-      p.circle(...side.eyeBottom, 3)
-      
+      p.circle(...side.eyeCenter, side.eyeWidth * 0.2);
+      p.circle(...side.eyeInner, 3);
+      p.circle(...side.eyeOuter, 3);
+      p.circle(...side.eyeTop, 3);
+      p.circle(...side.eyeBottom, 3);
+
+      let sidePoint = new Vector2D();
+      sidePoint.setToLerp(side.eyeCenter, side.eyeOuter, 3);
+      p.fill(0);
+      p.circle(...sidePoint, 20);
+
       // Draw eye contours
       side.eye.forEach((contour, cIndex) => {
-        p.fill(40 * sideIndex + cIndex * 20, 100, 50, .2);
-        
-        let sidePoint = new Vector2D()
-        sidePoint.setToLerp(side.eyeCenter, side.eyeOuter, 2)
-        
+        p.fill(40 * sideIndex + cIndex * 20, 100, 50, 0.2);
+        p.stroke(0)
         drawContour(p, contour, {
-          
           curve: true,
           close: true,
-          lerpToPoint:side.eyeCenter,
+          lerpToPoint: side.eyeCenter,
           // lerpPct: Math.sin(t),
           lerpPct(index, pct, pt) {
-            return Math.sin(pct*25 + t) - 2
-          }
+            return .2*Math.sin(pct * 45 + 10*t) - 1.2;
+          },
         });
-        
-        p.noFill()
-        p.stroke(0)
-         drawContour(p, contour, {
+
+        p.noFill();
+        p.stroke(100);
+        drawContour(p, contour, {
           subtract: side.eyeCenter,
           scale: 2,
-          add: new Vector2D(50, 50),
-          
-          
+          add: sidePoint,
         });
       });
     });
@@ -237,41 +232,33 @@ function drawContour(p, contour, settings = {}) {
 
   contour.forEach((pt, ptIndex) => {
     temp.setTo(pt);
-    
+
     // Use the original point, or calculate a new one?
     if (settings.lerpToPoint) {
-      let pct = .5
+      let pct = 0.5;
       if (settings.lerpPct instanceof Function) {
         // A function for the pct? Ok!
-        pct = settings.lerpPct(ptIndex, ptIndex/(contour.length), pt)
-      } else if (!isNaN(settings.lerpPct) ) {
-        pct = settings.lerpPct
+        pct = settings.lerpPct(ptIndex, ptIndex / contour.length, pt);
+      } else if (!isNaN(settings.lerpPct)) {
+        pct = settings.lerpPct;
       }
-     
+
       temp.setToLerp(pt, settings.lerpToPoint, pct);
-    
     }
-    
+
     // Move this point?
-    if (settings.subtract !== undefined)
-      temp.sub(settings.subtract)
-    if (settings.add !== undefined)
-      temp.add(settings.add)
-    if (settings.mult !== undefined)
-      temp.mult(settings.mult)
-    
+    if (settings.subtract !== undefined) temp.sub(settings.subtract);
+    if (settings.add !== undefined) temp.add(settings.add);
+    if (settings.mult !== undefined) temp.mult(settings.mult);
+
     // Double the first vertex for curves
-    if (settings.curve && ptIndex == 0) 
-      p.vertex(...temp);
-    
-    if (settings.curve)
-      p.curveVertex(...temp);
-    else
-      p.vertex(...temp);
-    
+    if (settings.curve && ptIndex == 0) p.vertex(...temp);
+
+    if (settings.curve) p.curveVertex(...temp);
+    else p.vertex(...temp);
+
     // Double the last vertex for curves
-    if (settings.curve && ptIndex == contour.length-1)
-      p.vertex(...temp);
+    if (settings.curve && ptIndex == contour.length - 1) p.vertex(...temp);
   });
 
   // Close the path
