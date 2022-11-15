@@ -149,11 +149,10 @@ class Face {
         face: contourListToVertices(side_indices.faceRings),
         eye: contourListToVertices(side_indices.eyeRings),
         eyeCenter: new Vector2D(0,0),
-        eyeInner: new Vector2D(0,0),
-        eyeOuter: new Vector2D(0,0),
-        eyeBottom: new Vector2D(0,0),
-        eyeTop: new Vector2D(0,0),
+        
       };
+      this.sides[i].innerEye = this.sides[i].eye[3][0]
+      this.sides[i].outerEye = this.sides[i].eye[3][8]
     }
   }
 
@@ -165,6 +164,8 @@ class Face {
         pt.setTo(predictedPts[index]);
       });
     }
+    
+// Update various calculateion
   }
 
   drawDebug(p) {
@@ -173,8 +174,15 @@ class Face {
       // p.circle(...pt, 4)
       // p.text(pt.index, ...pt)
     });
+    
+    
 
     this.sides.forEach((side, sideIndex) => {
+      
+      p.circle(...side.innerEye, 3)
+      p.circle(...side.outerEye, 3)
+       p.circle(...side., 3)
+      
       // Draw eye contours
       side.eye.forEach((contour, cIndex) => {
         p.fill(40 * sideIndex + cIndex * 20, 100, 50);
