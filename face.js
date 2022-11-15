@@ -197,15 +197,30 @@ class Face {
       
       // Draw eye contours
       side.eye.forEach((contour, cIndex) => {
-        p.fill(40 * sideIndex + cIndex * 20, 100, 50);
-       
+        p.fill(40 * sideIndex + cIndex * 20, 100, 50, .2);
+        
+        let sidePoint = new Vector2D()
+        sidePoint.setToLerp(side.eyeCenter, side.eyeOuter, 2)
+        
         drawContour(p, contour, {
+          
+          curve: true,
           close: true,
           lerpToPoint:side.eyeCenter,
           // lerpPct: Math.sin(t),
           lerpPct(index, pct, pt) {
-            return Math.sin(pct*25) - 2
+            return Math.sin(pct*25 + t) - 2
           }
+        });
+        
+        p.noFill()
+        p.stroke(0)
+         drawContour(p, contour, {
+          subtract: side.eyeCenter,
+          scale: 2,
+          add: new Vector2D(50, 50),
+          
+          
         });
       });
     });
@@ -221,7 +236,8 @@ function drawContour(p, contour, settings = {}) {
   let temp = new Vector2D(0, 0);
 
   contour.forEach((pt, ptIndex) => {
-    let toUse = pt;
+    temp.setTo(pt);
+    
     // Use the original point, or calculate a new one?
     if (settings.lerpToPoint) {
       let pct = .5
@@ -233,13 +249,29 @@ function drawContour(p, contour, settings = {}) {
       }
      
       temp.setToLerp(pt, settings.lerpToPoint, pct);
-      toUse = temp
+    
     }
     
-    if (settings.curve && (ptIndex == 0 || ptIndex == contour.length-1)) {
-      p.vertex(...toUse);
-    }
-    p.vertex(...toUse);
+    // Move this point?
+    if (settings.subtract !== undefined)
+      temp.sub(settings.subtract)
+    if (settings.add !== undefined)
+      temp.add(settings.add)
+    if (settings.mult !== undefined)
+      temp.mult(settings.mult)
+    
+    // Double the first vertex for curves
+    if (settings.curve && ptIndex == 0) 
+      p.vertex(...temp);
+    
+    if (settings.curve)
+      p.curveVertex(...temp);
+    else
+      p.vertex(...temp);
+    
+    // Double the last vertex for curves
+    if (settings.curve && ptIndex == contour.length-1)
+      p.vertex(...temp);
   });
 
   // Close the path
