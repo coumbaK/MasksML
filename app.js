@@ -1,3 +1,6 @@
+ const CANVAS_WIDTH = 400;
+      const CANVAS_HEIGHT = 300;
+
 window.addEventListener("load", function () {
   //------------------------------------------------------
   //------------------------------------------------------
@@ -8,16 +11,16 @@ window.addEventListener("load", function () {
 
   new Vue({
     template: `<div id="app">
-	    
-         <video controls muted id="video" crossorigin="anonymous">
-      
+	    <div id="view">
+        <video controls muted id="video" crossorigin="anonymous">
 
-<!-- https://www.lvlt.org/thequarantinemonologues -->
+
+        <!-- https://www.lvlt.org/thequarantinemonologues -->
         <source src="https://cdn.glitch.global/f422c25d-a910-4374-8c72-f41291b2b254/youtuber.mp4?v=1668534362785" type="video/mp4">
-     
-      </video>
-      <div ref="canvasHolder" class="canvas-holder"></div>		
-      
+
+        </video>
+        <div ref="canvasHolder" class="canvas-holder"></div>		
+      </div>
 		  
   </div>`,
 
@@ -41,6 +44,8 @@ window.addEventListener("load", function () {
           p.circle(0, 0, 100);
           
           let facePts = this.facePredictions[0]?.mesh
+          let box = this.facePredictions[0]?.boundingBox
+          
          if (facePts) {
            facePts.forEach(pt => {
              p.circle(pt[0], pt[1], 2)
@@ -54,8 +59,7 @@ window.addEventListener("load", function () {
       };
 
       let p = undefined;
-      const CANVAS_WIDTH = 200;
-      const CANVAS_HEIGHT = 200;
+     
       // Create P5
       const CANVAS_EL = this.$refs.canvasHolder;
       CANVAS_EL.style.width = CANVAS_WIDTH + "px";

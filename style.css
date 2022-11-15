@@ -39,6 +39,12 @@ video {
    z-index: 40;
 }
 
+#view {
+  border: 2px solid magenta;
+   width: min-content;
+  width: max-content;
+}
+
 .canvas-holder {
   z-index: 100;
   position: relative;
