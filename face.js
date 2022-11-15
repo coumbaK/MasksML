@@ -148,6 +148,11 @@ class Face {
         // Copy over the side and
         face: contourListToVertices(side_indices.faceRings),
         eye: contourListToVertices(side_indices.eyeRings),
+        eyeCenter: new Vector2D(0,0),
+        eyeInner: new Vector2D(0,0),
+        eyeOuter: new Vector2D(0,0),
+        eyeBottom: new Vector2D(0,0),
+        eyeTop: new Vector2D(0,0),
       };
     }
   }
@@ -173,13 +178,14 @@ class Face {
       // Draw eye contours
       side.eye.forEach((contour, cIndex) => {
         p.fill(40 * sideIndex + cIndex * 20, 100, 50);
-        // contour.forEach(pt=> {
-        //    p.circle(...pt, 4)
-        // })
+       
         drawContour(p, contour, {
           close: true,
           lerpToPoint: new Vector2D(0,0),
-          lerpPct: Math.sin(t)
+          // lerpPct: Math.sin(t),
+          lerpPct(index, pct, pt) {
+            return .5 + .3*Math.sin(pct*2)
+          }
         });
       });
     });
@@ -194,11 +200,18 @@ function drawContour(p, contour, settings = {}) {
 
   let temp = new Vector2D(0, 0);
 
-  contour.forEach((pt) => {
+  contour.forEach((pt, ptIndex) => {
     let toUse = pt;
     // Use the original point, or calculate a new one?
     if (settings.lerpToPoint) {
-      let pct = settings.lerpPct==undefined?settings.lerpPct:.5
+      let pct = .5
+      if (settings.lerpPct instanceof Function) {
+        // A function for the pct? Ok!
+        pct = settings.lerpPct(ptIndex, ptIndex/(contour.length), pt)
+      } else if (!isNaN(settings.lerpPct) ) {
+        pct = settings.lerpPct
+      }
+     
       temp.setToLerp(pt, settings.lerpToPoint, pct);
       toUse = temp
     }
