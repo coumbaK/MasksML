@@ -34,9 +34,13 @@ button.active {
   background-color: hsla(100, 50%, 90%, 1);
 }
 
+video {
+  position: absolute;
+   z-index: 40;
+}
 
-
-#canvas-holder {
+.canvas-holder {
+  z-index: 100;
   position: relative;
   margin:  0px auto;
 	border:  2px solid white;

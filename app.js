@@ -1,5 +1,3 @@
-
-
 window.addEventListener("load", function () {
   //------------------------------------------------------
   //------------------------------------------------------
@@ -11,14 +9,14 @@ window.addEventListener("load", function () {
   new Vue({
     template: `<div id="app">
 	    
-         <video class="overlay" controls muted id="video" crossorigin="anonymous">
+         <video controls muted id="video" crossorigin="anonymous">
       
 
 <!-- https://www.lvlt.org/thequarantinemonologues -->
         <source src="https://cdn.glitch.global/f422c25d-a910-4374-8c72-f41291b2b254/youtuber.mp4?v=1668534362785" type="video/mp4">
      
       </video>
-      <div ref="canvasHolder"></div>		
+      <div ref="canvasHolder" class="canvas-holder"></div>		
       
 		  
   </div>`,
@@ -38,9 +36,16 @@ window.addEventListener("load", function () {
           });
 
         p.draw = () => {
+          p.clear(0, 0, 0, 0)
           // Draw something
-          p.circle(0, 0, 100)
+          p.circle(0, 0, 100);
           
+          let facePts = this.facePredictions[0]?.mesh
+         if (facePts) {
+           facePts.forEach(pt => {
+             p.circle(pt[0], pt[1], 2)
+           })
+         }
         };
 
         p.mouseClicked = () => {
@@ -57,35 +62,34 @@ window.addEventListener("load", function () {
       CANVAS_EL.style.height = CANVAS_HEIGHT + "px";
       new p5(s, CANVAS_EL);
       
-      
-//       Setup the video
-      let predictions = [];
-const video = document.getElementById("video");
+      //-----------------------------------
+      //       Setup the video
+      const video = document.getElementById("video");
 
+      // When the model is loaded
+      function modelLoaded() {
+        console.log("Model Loaded!");
+      }
 
-// When the model is loaded
-function modelLoaded() {
-  console.log("Model Loaded!");
-}
+      // Create a new facemesh method
+      let facePredictionCount = 0;
+      const facemesh = ml5.facemesh(video, modelLoaded);
 
-// Create a new facemesh method
-const facemesh = ml5.facemesh(video, modelLoaded);
-
-
-
-// Listen to new 'face' events
-facemesh.on("face", (results) => {
-  // console.log("new face")
-  // predictions = results;
-  // console.log(predictions)
-});
-
-
+      // Listen to new 'face' events
+      facemesh.on("face", (results) => {
+        facePredictionCount++
+        // console.log("new face")
+        this.facePredictions = results;
+        if (facePredictionCount%10==0)
+          console.log(facePredictionCount, this.facePredictions)
+      });
     },
 
     // We will use your data object as the data for Vue
     data() {
-       return {}
+      return {
+        facePredictions: [],
+      };
     },
     el: "#app",
   });
