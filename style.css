@@ -55,13 +55,10 @@ video {
 
 #controls {
   overflow: scroll;
-  bottom: 10px;
-  background-color: white;
-  border-radius: 10px;
+  top: 0px;
+ position: absolute;
   flex: 1;
-  margin: 10px;
-	border:  2px solid white;
-  box-shadow: 1px 3px 4px rgba(0, 0, 0, .3);
+
 }
 
 .row {

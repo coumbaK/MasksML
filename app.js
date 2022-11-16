@@ -1,7 +1,12 @@
- const CANVAS_WIDTH = 500;
-      const CANVAS_HEIGHT = 300;
+/* globals Vector2D, allMasks, ml5, Vue, Face, p5 */
 
-const VIDEO_SRC = ["https://cdn.glitch.global/f422c25d-a910-4374-8c72-f41291b2b254/youtuber.mp4?v=1668534362785" , "https://cdn.glitch.global/f422c25d-a910-4374-8c72-f41291b2b254/monologs-2.mp4?v=1668546942642"]
+const CANVAS_WIDTH = 600;
+const CANVAS_HEIGHT = 300;
+
+const VIDEO_SRC = [
+  "https://cdn.glitch.global/f422c25d-a910-4374-8c72-f41291b2b254/youtuber.mp4?v=1668534362785",
+  "https://cdn.glitch.global/f422c25d-a910-4374-8c72-f41291b2b254/monologs-2.mp4?v=1668546942642",
+];
 
 window.addEventListener("load", function () {
   //------------------------------------------------------
@@ -10,16 +15,22 @@ window.addEventListener("load", function () {
   //------------------------------------------------------
   // VUE!!!
   // Create a new vue interface
-  
-//   This has to stay outside of Vue, 
-  // otherwise the Vector2d extention-of-arrays 
+
+  //   This has to stay outside of Vue,
+  // otherwise the Vector2d extention-of-arrays
   // and the Vue extension of datatypes will fight
-  const face = new Face()
+  const face = new Face();
 
   new Vue({
     template: `<div id="app">
+      <div id="controls">
+        <select>
+          <option v-for="maskID in Object.keys(allMasks)">{{maskID}}</option>
+        </select>
+      </div>
 	    <div id="view">
-        <video controls muted id="video" crossorigin="anonymous" width="500" height="400">
+        
+        <video controls muted id="video" crossorigin="anonymous" >
 
 
         <!-- https://www.lvlt.org/thequarantinemonologues -->
@@ -30,6 +41,11 @@ window.addEventListener("load", function () {
       </div>
 		  
   </div>`,
+    computed: {
+      selectedMask() {
+        return this.allMasks[this.selectedID];
+      },
+    },
 
     mounted() {
       // Create P5 when we mount this element
@@ -46,20 +62,21 @@ window.addEventListener("load", function () {
           });
 
         p.draw = () => {
-          p.clear(0, 0, 0, 0)
+          p.clear(0, 0, 0, 0);
           // Draw something
           p.circle(0, 0, 100);
-          
-          let facePts = this.facePredictions[0]?.scaledMesh
-          let box = this.facePredictions[0]?.boundingBox
-          
-         // if (facePts) {
-         //   facePts.forEach(pt => {
-         //     p.circle(pt[0], pt[1], 2)
-         //   })
-         // }
-          
-         face.drawDebug(p)
+
+          let facePts = this.facePredictions[0]?.scaledMesh;
+          let box = this.facePredictions[0]?.boundingBox;
+
+          // if (facePts) {
+          //   facePts.forEach(pt => {
+          //     p.circle(pt[0], pt[1], 2)
+          //   })
+          // }
+
+          face.drawDebug(p);
+          this.selectedMask.draw(p, face);
         };
 
         p.mouseClicked = () => {
@@ -68,14 +85,14 @@ window.addEventListener("load", function () {
       };
 
       let p = undefined;
-     
+
       // Create P5
       const CANVAS_EL = this.$refs.canvasHolder;
       CANVAS_EL.style.width = CANVAS_WIDTH + "px";
       CANVAS_EL.style.height = CANVAS_HEIGHT + "px";
-      
+
       new p5(s, CANVAS_EL);
-      
+
       //-----------------------------------
       //       Setup the video
       const video = document.getElementById("video");
@@ -91,10 +108,10 @@ window.addEventListener("load", function () {
 
       // Listen to new 'face' events
       facemesh.on("face", (results) => {
-        facePredictionCount++
+        facePredictionCount++;
         // console.log("new face")
         this.facePredictions = results;
-        face.setTo(this.facePredictions[0])
+        face.setTo(this.facePredictions[0]);
         // if (facePredictionCount%10==0)
         //   console.log(facePredictionCount, this.facePredictions)
       });
@@ -103,7 +120,10 @@ window.addEventListener("load", function () {
     // We will use your data object as the data for Vue
     data() {
       return {
-        sourceURL: VIDEO_SRC[1],
+        allMasks: allMasks,
+        selectedID: Object.keys(allMasks)[0],
+
+        sourceURL: VIDEO_SRC[0],
         sources: VIDEO_SRC,
         facePredictions: [],
       };
