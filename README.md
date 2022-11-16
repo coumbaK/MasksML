@@ -4,45 +4,57 @@
 Test McStudent
 
 ## Your Glitch link
-[my page](https://galaxykate-a1.glitch.me)
+[my page](https://galaxykate-a8.glitch.me)
 
 
-## What data sources are you using? Link the API/Kaggle/etc pages 
+## Describe your first mask
+
+--your answer here--
+
+## What inspirations (from the in-class materials or elsewhere) did you use for this mask? 
+
+--your answer here (even if you ended up somewhere else!)--
+
+
+## How does your mask relate to its background?
+
+--your answer here--
+
+
+## What of the Homuncular flexibility terms apply to this mask?  (restoring, replacing, reinventing, ipsimoda remapping, sensory substitution, parasynthetic expression) 
+  
+--or cite other ideas from the article that were useful--
+
+
+ 
+## How do you feel wearing this mask? 
 
 --your answer here--
 
 
 
-## Describe the format of the data
+## Describe your second mask
 
---your answer here (e.g, what kinds of data structures is it in? What properties does it have?) --
-
-
-## How did you pre-process your data, if at all?
 --your answer here--
 
-## How are you visualizing the data?
+## What inspirations (from the in-class materials or elsewhere) did you use for this mask? 
 
---your answer here 
-
-
+--your answer here (even if you ended up somewhere else!)--
 
 
-## How are you visualizing the data?
+## How does your mask relate to its background?
 
---your answer here 
-
-
-
-## What did you notice about this data that you didn't anticipate?
-
---your answer here 
+--your answer here--
 
 
-## What do you want the visitor to your page to understand about this data?
+## What of the Homuncular flexibility terms apply to this mask?  (restoring, replacing, reinventing, ipsimoda remapping, sensory substitution, parasynthetic expression) 
+  
+--or cite other ideas from the article that were useful--
 
---your answer here 
+ 
+## How do you feel wearing this mask? 
 
+--your answer here--
 
 
 ## List any resources (code, images, etc) you've used, and where you got them from

@@ -1,7 +1,7 @@
 /* globals allMasks  Vector2D, drawContour */
 
 allMasks["kate"] = {
-  title: "Kate's in-class mask"
+  title: "Kate's in-class mask",
   description: "A bunch of techniques",
   setup(p) {
     p.clear()

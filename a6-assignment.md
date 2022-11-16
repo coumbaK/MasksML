@@ -1,20 +1,36 @@
-https://github.com/tensorflow/tfjs-models/tree/master/face-landmarks-detection#parameters-for-facelandmarksdetectionload
+# Masks
+
+Make two masks by remixing the provided [code](https://glitch.com/edit/#!/galaxykate-a8?path=a6-assignment.md%3A3%3A26)
+
+Speedrun:
+
+* For each mask
+  * Write down what your initial plan or inspiration is (to remember)
+  * Duplicate mask-test or one of the other sample masks
+  * Fill out the information in description and title
+  * 
+  * **setup** can be used to create additional points or set variables
 
 map of all the points https://github.com/tensorflow/tfjs-models/blob/master/face-landmarks-detection/mesh_map.jpg
 
-Face:
-  mouth: 5 contour rings, outer to inner
-  centerLine: points from forehead to chin
-  
+## Available tools
 
-Per side:
-  eye: 5 contour rings, outer-to-inner, starting at inner eye and going over the top and down
-  eyeWidth, eyeHeight, eyeBlink
-  eyeInner, eyeOuter, eyeTop, eyeBottom, eyeCenter
-  face: 3 contours: outside of face to inside
+Use all of your P5 knowledge and tools: particle systems, repetition, transformations, curves, etc!
+
+* Face:
+  * mouth: 5 contour rings, outer to inner
+  * centerLine: points from forehead to chin
+  * top: forehead 
+  * bottom: chin
+  * nose: tip of the nose
+
+
+* Per side:
+  * eye: 5 contour rings, outer-to-inner, starting at inner eye and going over the top and down
+  * eyeWidth, eyeHeight, eyeBlink
+  * eyeInner, eyeOuter, eyeTop, eyeBottom, eyeCenter
+  * face: 3 contours: outside of face to inside
   
-  
-  restoring, replacing, reinventing, ipsimoda remapping, sensory substitution, parasynthetic expression 
   
 Contour: a set of points
 You can duplicate it or slice it 

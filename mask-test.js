@@ -1,6 +1,7 @@
 /* globals allMasks  Vector2D, drawContour */
 allMasks["test"] = {
-  
+  title: "Test mask",
+  description: "TODO: fix this into a better debugging mask",
   setup() {
     
   },
