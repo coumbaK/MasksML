@@ -94,8 +94,20 @@ allMasks["basics"] = {
         });
       }
 
+      // Still inside the side loop
       p.fill(0);
-      drawContour(p, side.eye[4], {});
+      for (var i = 0; i < 10; i++) {
+      let sidePoint = new Vector2D();
+      sidePoint.setToLerp(side.eyeCenter, side.eyeOuter, i);
+      
+      drawContour(p, side.eye[4], {
+        subtract: side.eyeCenter,
+        scale: 100,
+        add:sidePoint
+      });
+      p.fill(100)
+      p.circle(...sidePoint, 4)
+      }
     });
   },
 };
