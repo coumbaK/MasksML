@@ -8,3 +8,6 @@ Per side:
   eye: 5 rings, outer-to-inner, starting at inner eye and going over the top and down
   eyeWidth, eyeHeight, eyeBlink
   eyeInner, eyeOuter, eyeTop, eyeBottom, eyeCenter
+  
+  
+  restoring, replacing, reinventing, ipsimoda remapping
