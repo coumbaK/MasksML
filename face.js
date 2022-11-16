@@ -10,18 +10,12 @@ let allMasks = {}
  **/
 
 const FACE_INDICES = {
-  fingers: [
-    [1, 2, 3, 4],
-    [5, 6, 7, 8],
-    [9, 10, 11, 12],
-    [13, 14, 15, 16],
-    [17, 18, 19, 20],
-  ],
+  
   centerLine: [
     10, 151, 9, 8, 168, 6, 197, 195, 5, 4, 1, 19, 94, 2, 164, 0, 11, 12, 13, 14,
     15, 16, 17, 18, 200, 199, 175, 152,
   ],
-  mouth: [
+  mouthRings: [
     [
       287, 436, 426, 327, 326, 2, 97, 98, 206, 216, 57, 43, 106, 182, 83, 18,
       313, 406, 335, 273,
@@ -122,12 +116,12 @@ const FACE_INDICES = {
     },
   ],
 
-  // [10 109 87 103]
 };
 const LANDMARK_COUNT = 468;
 
 class Face {
   constructor() {
+    
     //     All faces have 468 points
     this.points = [];
     for (var i = 0; i < LANDMARK_COUNT; i++) {
@@ -159,6 +153,13 @@ class Face {
       this.sides[i].eyeTop = this.sides[i].eye[4][4];
       this.sides[i].eyeBottom = this.sides[i].eye[4][12];
     }
+    
+    // Non-side landmarks
+    this.mouth = contourListToVertices(FACE_INDICES.mouthRings)
+    this.centerLine = FACE_INDICES.centerLine.map((index) => this.points[index]);
+    this.top = this.centerLine[0]
+    this.bottom = this.centerLine[this.centerLine.length - 1]
+    this.nose = this.centerLine[9]
   }
 
   setTo(prediction) {

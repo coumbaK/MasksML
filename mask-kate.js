@@ -16,6 +16,9 @@ allMasks["kate"] = {
 
       p.fill(320, 100, 50, 0.3);
       p.stroke(0);
+      
+       
+      
       drawRibbon(p, side.eye[0].slice(0, 10), side.eye[1].slice(0, 10), {
         curve: true,
         close: true,
@@ -32,5 +35,10 @@ allMasks["kate"] = {
         }
       });
     });
+    
+    p.circle(...face.bottom, 20);
+    p.circle(...face.nose, 20);
+    p.circle(...face.top, 20);
+     
   },
 };
