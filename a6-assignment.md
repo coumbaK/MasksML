@@ -2,7 +2,7 @@
 
 Make two masks by remixing the provided [code](https://glitch.com/edit/#!/galaxykate-a8?path=a6-assignment.md%3A3%3A26)
 
-Make a mask that is interesting, emergent, and has *set* (theatrically) to surround the mask
+Make a mask that is interesting and emergent. Don't simply try to recreate branded masks, but create something strange and new
 
 Speedrun:
 
