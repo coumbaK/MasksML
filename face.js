@@ -1,4 +1,6 @@
-/* globals Vector2D */
+/* globals Vector2D, allMasks */
+
+let allMasks = {}
 
 /**
  * Class for Face
