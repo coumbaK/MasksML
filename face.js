@@ -194,10 +194,10 @@ class Face {
 
 function drawRibbon(p, c0, c1, settings = {}) {
    p.beginShape();
-  drawPoints(p, c0, settings)
-  drawPoints(p, c0, settings)
+  drawPoints(p, c0, {...settings, ...settings.side0})
+  drawPoints(p, c1, {...settings, ...settings.side1, reverse:true})
   
-  p.endShape();
+   p.endShape(settings.close ? p.CLOSE : undefined);
 }
 
 function drawContour(p, contour, settings = {}) {
@@ -213,8 +213,10 @@ function drawContour(p, contour, settings = {}) {
 function drawPoints(p, contour, settings = {}) {
  
   let temp = new Vector2D(0, 0);
-  if (settings.reverse)
+  if (settings.reverse) {
+    
     contour = contour.slice(0).reverse()
+  }
 
   contour.forEach((pt, ptIndex) => {
     temp.setTo(pt);
@@ -237,14 +239,16 @@ function drawPoints(p, contour, settings = {}) {
     if (settings.add !== undefined) temp.add(settings.add);
     if (settings.mult !== undefined) temp.mult(settings.mult);
 
-    // Double the first vertex for curves
-    if (settings.curve && ptIndex == 0) p.vertex(...temp);
-
+    // // Double the last vertex for curves
+    // if (settings.curve && ptIndex == contour.length - 1) p.curveVertex(...temp);
+    
     if (settings.curve) p.curveVertex(...temp);
     else p.vertex(...temp);
 
-    // Double the last vertex for curves
-    if (settings.curve && ptIndex == contour.length - 1) p.vertex(...temp);
+    
+    // Double the first vertex for curves
+    // if (settings.curve && ptIndex == 0) p.curveVertex(...temp);
+
   });
 
 }
