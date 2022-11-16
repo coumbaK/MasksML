@@ -1,9 +1,14 @@
 /* globals allMasks  Vector2D, drawContour */
 
 allMasks["kate"] = {
-  setup() {},
+  setup(p) {
+    p.clear()
+    
+  },
 
   draw(p, face) {
+    // p.clear()
+    p.background(0, 0, 0, .01);
     let t = p.millis() * 0.001;
 
     face.sides.forEach((side, sideIndex) => {

@@ -50,7 +50,7 @@ window.addEventListener("load", function () {
       watch: {
         selectedMask() {
           console.log("SELECTED MASK", this.selectedID)
-          this.selectedMask?.setup?.()
+          this.selectedMask?.setup?.(p)
           localStorage.setItem("lastMask",this.selectedID)
         }
       },
@@ -69,20 +69,7 @@ window.addEventListener("load", function () {
           });
 
         p.draw = () => {
-          p.clear(0, 0, 0, 0);
-          // Draw something
-          p.circle(0, 0, 100);
-
-          let facePts = this.facePredictions[0]?.scaledMesh;
-          let box = this.facePredictions[0]?.boundingBox;
-
-          // if (facePts) {
-          //   facePts.forEach(pt => {
-          //     p.circle(pt[0], pt[1], 2)
-          //   })
-          // }
-
-          // face.drawDebug(p);
+          face.drawDebug(p);
           this.selectedMask.draw(p, face);
         };
 

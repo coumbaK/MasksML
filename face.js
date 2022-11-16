@@ -212,6 +212,7 @@ function drawContour(p, contour, settings = {}) {
 
 
 function drawPoints(p, contour, settings = {}) {
+  
  
   let temp = new Vector2D(0, 0);
   if (settings.reverse) {
