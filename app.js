@@ -50,7 +50,7 @@ window.addEventListener("load", function () {
       watch: {
         selectedMask() {
           console.log("SELECTED MASK", this.selectedID)
-          this.selectedMask?.setup?.(p)
+          this.selectedMask?.setup?.()
           localStorage.setItem("lastMask",this.selectedID)
         }
       },
@@ -69,7 +69,7 @@ window.addEventListener("load", function () {
           });
 
         p.draw = () => {
-          face.drawDebug(p);
+          // face.drawDebug(p);
           this.selectedMask.draw(p, face);
         };
 

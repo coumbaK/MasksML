@@ -2,6 +2,8 @@
 
 Make two masks by remixing the provided [code](https://glitch.com/edit/#!/galaxykate-a8?path=a6-assignment.md%3A3%3A26)
 
+Make a mask that is interesting, emergent, and has *set* (theatrically) to surround the mask
+
 Speedrun:
 
 * For each mask
@@ -38,6 +40,14 @@ face.sides[0].eyes[4].slice(0,5)
 
 Powertool settings:
 
+```
+
+drawContour(p, contour, settings): draw this curve as a shape  
+drawPoints(p, contour, settings): just draw the vertices (if you want to add onto the shape)  
+drawRibbon(p, contour0, contour1, settings): draw two contours as the sides of a ribbon
+
+```
+
 * curve: true/false, use curve points instead of vertices
 * close: true/false, close the shape after drawing
 
@@ -53,10 +63,6 @@ Powertool settings:
 * add: Vector2D added after subtracting and scaling each point,
 * side0: settings for the first contour in a ribbon
 * side1: settings for the second contour in a ribbon
-
-drawContour(p, contour, settings): draw this curve as a shape  
-drawPoints(p, contour, settings): just draw the vertices (if you want to add onto the shape)  
-drawRibbon(p, contour0, contour1, settings): draw two contours as the sides of a ribbon
 
 
   
