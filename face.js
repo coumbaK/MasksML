@@ -192,10 +192,29 @@ class Face {
 //==================================
 // Drawing utilities
 
+function drawRibbon(p, c0, c1, settings = {}) {
+   p.beginShape();
+  drawPoints(p, c0, settings)
+  drawPoints(p, c0, settings)
+  
+  p.endShape();
+}
+
 function drawContour(p, contour, settings = {}) {
   p.beginShape();
 
+  drawPoints(p, contour, settings)
+
+  // Close the path
+  p.endShape(settings.close ? p.CLOSE : undefined);
+}
+
+
+function drawPoints(p, contour, settings = {}) {
+ 
   let temp = new Vector2D(0, 0);
+  if (settings.reverse)
+    contour = contour.slice(0).reverse()
 
   contour.forEach((pt, ptIndex) => {
     temp.setTo(pt);
@@ -228,6 +247,4 @@ function drawContour(p, contour, settings = {}) {
     if (settings.curve && ptIndex == contour.length - 1) p.vertex(...temp);
   });
 
-  // Close the path
-  p.endShape(settings.close ? p.CLOSE : undefined);
 }

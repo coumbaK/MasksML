@@ -24,7 +24,7 @@ window.addEventListener("load", function () {
   new Vue({
     template: `<div id="app">
       <div id="controls">
-        <select>
+        <select v-model="selectedID">
           <option v-for="maskID in Object.keys(allMasks)">{{maskID}}</option>
         </select>
       </div>
@@ -47,6 +47,13 @@ window.addEventListener("load", function () {
       },
     },
 
+      watch: {
+        selectedMask() {
+          console.log("SELECTED MASK", this.selectedID)
+          this.selectedMask?.setup?.()
+          localStorage.setItem("lastMask",this.selectedID)
+        }
+      },
     mounted() {
       // Create P5 when we mount this element
       const s = (p0) => {
@@ -75,7 +82,7 @@ window.addEventListener("load", function () {
           //   })
           // }
 
-          face.drawDebug(p);
+          // face.drawDebug(p);
           this.selectedMask.draw(p, face);
         };
 
@@ -119,9 +126,12 @@ window.addEventListener("load", function () {
 
     // We will use your data object as the data for Vue
     data() {
+      let lastID = localStorage.getItem("lastMask")
+      if (!allMasks[lastID])
+        lastID = Object.keys(allMasks)[0]
       return {
         allMasks: allMasks,
-        selectedID: Object.keys(allMasks)[0],
+        selectedID: lastID,
 
         sourceURL: VIDEO_SRC[0],
         sources: VIDEO_SRC,

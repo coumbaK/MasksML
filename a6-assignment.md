@@ -10,4 +10,4 @@ Per side:
   eyeInner, eyeOuter, eyeTop, eyeBottom, eyeCenter
   
   
-  restoring, replacing, reinventing, ipsimoda remapping
+  restoring, replacing, reinventing, ipsimoda remapping, sensory substitution, parasynthetic expression 
