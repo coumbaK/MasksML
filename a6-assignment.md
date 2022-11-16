@@ -8,7 +8,7 @@ Speedrun:
   * Write down what your initial plan or inspiration is (to remember)
   * Duplicate mask-test or one of the other sample masks
   * Fill out the information in description and title
-  * 
+  * **draw** draws the mask
   * **setup** can be used to create additional points or set variables
 
 map of all the points https://github.com/tensorflow/tfjs-models/blob/master/face-landmarks-detection/mesh_map.jpg
