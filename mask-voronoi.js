@@ -27,38 +27,44 @@ allMasks["voronoi"] = {
 
   draw(p, face) {
     // console.log(this.bbox)
-    // p.clear()
-    // p.background(0, 0, 0, .01);
+    p.clear()
+    // p.background(0, 0, 0, );
     
 //     Compute a new diagram
+     let t = p.millis() * 0.001;
     let sites = []
     let count = 20
-    for (var i = 0; i < count; i++) {
-      let v = new Vector2D()
-      let r = 100
-      let theta = i*Math.PI*2/count
-      v.setToPolar(r, theta)
-      v.add(p.width/2, p.height/2)
-      // Convert to {x,y}
-      sites.push({x:v[0], y:v[1]})
+    for (var j = 0; j < 1; j++) {
+      for (var i = 0; i < count; i++) {
+        let v = new Vector2D()
+        let r = 40 + j*50 + 100*p.noise(i)
+        let theta = (i + Math.sin(j + t))*Math.PI*2/count
+        v.setToPolar(r, theta)
+        v.add(p.width/2, p.height/2)
+        // Convert to {x,y}
+        // sites.push({x:v[0], y:v[1]})
+      }
     }
     
-    for (var i = 0; i < count; i++) {
-      let v = new Vector2D()
-      let r = 40
-      let theta = (i + .5)*Math.PI*2/count
-      v.setToPolar(r, theta)
-      v.add(p.width/2, p.height/2)
-      // Convert to {x,y}
-      sites.push({x:v[0], y:v[1]})
-    }
+// Add face points
+    // face.points.forEach(v => {
+    //    sites.push({x:v[0], y:v[1]})
+    // })
+    face.sides.forEach(side => {
+      side.eye[0].forEach(v => {
+        sites.push({x:v[0], y:v[1]})
+      })
+    })
     
     this.diagram = this.voronoi.compute(sites, this.bbox);
     
-    let t = p.millis() * 0.001;
+   
     // Each cell in the diagram
     this.diagram.cells.forEach((cell, cindex) => {
-      p.stroke((cindex*30)%360, 100, 50)
+      
+      let index = cell.site.voronoiId
+      // console.log(index)
+      p.stroke(0, 0, 100)
       p.strokeWeight(2)
       
       p.beginShape()
@@ -76,7 +82,7 @@ allMasks["voronoi"] = {
       })
       
       p.endShape()
-      p.circle(cell.site.x, cell.site.y, 10)
+      p.circle(cell.site.x, cell.site.y, 1)
     })
   },
 };
