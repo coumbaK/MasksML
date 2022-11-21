@@ -29,6 +29,14 @@ allMasks["voronoi"] = {
     // p.background(0, 0, 0, .01);
     
     let t = p.millis() * 0.001;
-    
+    this.diagram.cells.forEach(cell => {
+      cell.halfedges.forEach(hedge => {
+        let e = hedge.edge
+        let va = e.va
+        let vb = e.vb
+        p.line(va.x, va.y, vb.x, vb.y)
+      })
+      p.circle(cell.site.x, cell.site.y, 10)
+    })
   },
 };
