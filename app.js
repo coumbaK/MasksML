@@ -28,10 +28,11 @@ window.addEventListener("load", function () {
         <select v-model="selectedID">
           <option v-for="maskID in Object.keys(allMasks)">{{maskID}}</option>
         </select>
+        <button @click="switchInput">webcam</button>
       </div>
 	    <div id="view">
         
-        <video controls muted id="video" crossorigin="anonymous" >
+        <video controls muted id="video" ref="video" crossorigin="anonymous" >
 
 
         <!-- https://www.lvlt.org/thequarantinemonologues -->
@@ -40,6 +41,7 @@ window.addEventListener("load", function () {
         </video>
         <div ref="canvasHolder" class="canvas-holder"></div>		
       </div>
+      
 		  
   </div>`,
     computed: {
@@ -111,6 +113,27 @@ window.addEventListener("load", function () {
         // if (facePredictionCount%10==0)
         //   console.log(facePredictionCount, this.facePredictions)
       });
+    },
+
+    methods: {
+      switchInput() {
+        console.log(this)
+        let video = this.$refs.video
+        console.log("Switch input")
+        navigator.mediaDevices
+          .getUserMedia({ video: true, audio: true })
+          .then((stream) => {
+            console.log("success", stream);
+            video.srcObject = stream
+            video.addEventListener('loadeddata', (event) => {
+            console.log('Yay! The readyState just increased to  ' +
+            'HAVE_CURRENT_DATA or greater for the first time.');
+            });
+          })
+          .catch((err) => {
+            console.log(err);
+          });
+      },
     },
 
     // We will use your data object as the data for Vue
