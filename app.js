@@ -5,6 +5,7 @@ const CANVAS_HEIGHT = 300;
 let p = undefined;
 
 const VIDEO_SRC = [
+  //    https://www.lvlt.org/thequarantinemonologues
   "https://cdn.glitch.global/f422c25d-a910-4374-8c72-f41291b2b254/youtuber.mp4?v=1668534362785",
   "https://cdn.glitch.global/f422c25d-a910-4374-8c72-f41291b2b254/monologs-2.mp4?v=1668546942642",
 ];
@@ -32,13 +33,14 @@ window.addEventListener("load", function () {
       </div>
 	    <div id="view">
         
-        <video controls muted id="video" ref="video" crossorigin="anonymous" >
-
-
-        <!-- https://www.lvlt.org/thequarantinemonologues -->
-        <source :src="sourceURL" type="video/mp4">
-
+        <!-- recorded video -->         
+        <video controls muted id="video" ref="video" crossorigin="anonymous" v-if="true">
+          <source :src="sourceURL" type="video/mp4">
         </video>
+        
+        <!-- live webcam -->         
+        <video id="webcam" ref="webcam" />
+        
         <div ref="canvasHolder" class="canvas-holder"></div>		
       </div>
       
@@ -90,35 +92,39 @@ window.addEventListener("load", function () {
       CANVAS_EL.style.height = CANVAS_HEIGHT + "px";
 
       p = new p5(s, CANVAS_EL);
-
-      // this.startFaceDetection()
+  
+      // When the video is loaded, start face detection
+      let video = this.$refs.video;
+      video.addEventListener("loadeddata", (event) => {
+        console.log("Loaded video data!");
+        this.startFaceDetection();
+      });
     },
 
     methods: {
       startFaceDetection() {
-         console.log("STARTING FACE DETECTION ON VIDEO")
+        console.log("STARTING FACE DETECTION ON VIDEO");
         let video = this.$refs.video;
         // Create a new facemesh method
         let facePredictionCount = 0;
-        
+
         // When the model is loaded
-      function modelLoaded() {
-        console.log(facemesh)
-        console.log("Model Loaded!");
-      }
+        function modelLoaded() {
+          console.log(facemesh);
+          console.log("Model Loaded!");
+        }
         const facemesh = ml5.facemesh(video, modelLoaded);
 
         // Listen to new 'face' events
         facemesh.on("face", (results) => {
           facePredictionCount++;
           // console.log("new face")
-          
+
           this.facePredictions = results;
           face.setTo(this.facePredictions[0]);
           // if (facePredictionCount%10==0)
           //   console.log(facePredictionCount, this.facePredictions)
         });
-        
       },
 
       switchInput() {
@@ -128,19 +134,19 @@ window.addEventListener("load", function () {
         navigator.mediaDevices
           .getUserMedia({ video: true, audio: true })
           .then((stream) => {
-            // console.log("success", stream);
-            // video.setAttribute('srcObject', stream);
-          
-          const video = document.createElement('video');
-          // video.srcObject = stream;
-            
-          
-            video.addEventListener("loadeddata", (event) => {
-              console.log("Loaded data!");
-              // this.startFaceDetection()
-            }, () => {
-              console.log("ERR")
-            });
+            const webcam = this.$refs.webcam;
+            webcam.srcObject = stream;
+
+            webcam.addEventListener(
+              "loadeddata",
+              (event) => {
+                console.log("Loaded data!");
+                // this.startFaceDetection()
+              },
+              () => {
+                console.log("ERR");
+              }
+            );
           })
           .catch((err) => {
             console.log(err);
