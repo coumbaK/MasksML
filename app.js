@@ -91,43 +91,55 @@ window.addEventListener("load", function () {
 
       p = new p5(s, CANVAS_EL);
 
-      //-----------------------------------
-      //       Setup the video
-      const video = document.getElementById("video");
-
-      // When the model is loaded
-      function modelLoaded() {
-        console.log("Model Loaded!");
-      }
-
-      // Create a new facemesh method
-      let facePredictionCount = 0;
-      const facemesh = ml5.facemesh(video, modelLoaded);
-
-      // Listen to new 'face' events
-      facemesh.on("face", (results) => {
-        facePredictionCount++;
-        // console.log("new face")
-        this.facePredictions = results;
-        face.setTo(this.facePredictions[0]);
-        // if (facePredictionCount%10==0)
-        //   console.log(facePredictionCount, this.facePredictions)
-      });
+      // this.startFaceDetection()
     },
 
     methods: {
+      startFaceDetection() {
+         console.log("STARTING FACE DETECTION ON VIDEO")
+        let video = this.$refs.video;
+        // Create a new facemesh method
+        let facePredictionCount = 0;
+        
+        // When the model is loaded
+      function modelLoaded() {
+        console.log(facemesh)
+        console.log("Model Loaded!");
+      }
+        const facemesh = ml5.facemesh(video, modelLoaded);
+
+        // Listen to new 'face' events
+        facemesh.on("face", (results) => {
+          facePredictionCount++;
+          // console.log("new face")
+          
+          this.facePredictions = results;
+          face.setTo(this.facePredictions[0]);
+          // if (facePredictionCount%10==0)
+          //   console.log(facePredictionCount, this.facePredictions)
+        });
+        
+      },
+
       switchInput() {
-        console.log(this)
-        let video = this.$refs.video
-        console.log("Switch input")
+        console.log(this);
+        let video = this.$refs.video;
+        console.log("Switch input");
         navigator.mediaDevices
           .getUserMedia({ video: true, audio: true })
           .then((stream) => {
-            console.log("success", stream);
-            video.srcObject = stream
-            video.addEventListener('loadeddata', (event) => {
-            console.log('Yay! The readyState just increased to  ' +
-            'HAVE_CURRENT_DATA or greater for the first time.');
+            // console.log("success", stream);
+            // video.setAttribute('srcObject', stream);
+          
+          const video = document.createElement('video');
+          // video.srcObject = stream;
+            
+          
+            video.addEventListener("loadeddata", (event) => {
+              console.log("Loaded data!");
+              // this.startFaceDetection()
+            }, () => {
+              console.log("ERR")
             });
           })
           .catch((err) => {
