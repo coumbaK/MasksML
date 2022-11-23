@@ -13,27 +13,34 @@ allMasks["particles"] = {
       return particle;
     }
 
-    
-    face.sides.forEach((side) => {
-      let beardContour = side.face[0].slice(0, 10);
+    for (var i = 0; i < 4; i++) {
+      face.sides.forEach((side) => {
+        let faceContour = side.face[0];
+        let startIndex = 10;
+        let beardContour = faceContour.slice(startIndex);
+        let previousPoint = faceContour[startIndex - 1];
 
-      beardContour.forEach((originalPoint) => {
-       
-        let particle = makeParticle();
-        particle.setTo(originalPoint)
-        particle.type = "beard"
-        particle.original = originalPoint
-        this.particles.push(particle);
+        beardContour.forEach((originalPoint) => {
+          let particle = makeParticle();
+          particle.setTo(originalPoint);
+          particle.lerpTo*
+          
+          particle.type = "beard";
+          particle.beardLayer = i;
+          particle.previous = previousPoint;
+          particle.original = originalPoint;
+          this.particles.push(particle);
+
+          // Store the previous
+          previousPoint = originalPoint;
+        });
       });
-    });
+    }
   },
-  
 
   draw(p, face) {
     let t = p.millis() * 0.01;
     let dt = p.deltaTime * 0.001;
-    
-    
 
     p.clear();
     this.particles.forEach((pt) => p.circle(...pt, 4));
@@ -43,13 +50,22 @@ allMasks["particles"] = {
       // console.log(pt)
       // reset forces
       pt.force.mult(0);
-      
+
       // add gravity
-      pt.force.add(0, 10000);
-      
-      // Add a nose force
-      let noseForce = pt.getForceTowardsPoint(face.nose, 10);
-      pt.force.add(noseForce);
+      pt.force.add(0, 10);
+
+      // Be repelled by the nose
+      // let noseForce = pt.getForceTowardsPoint(face.nose, -10, {falloff: .5});
+      // pt.force.add(noseForce);
+
+      // But attracted to your offset point
+      let offsetPoint = new Vector2D();
+      let pct = -0.5 * (pt.beardLayer + 1);
+      offsetPoint.setToLerp(pt.original, face.nose, -0.5);
+      let rootForce = pt.getForceTowardsPoint(offsetPoint, 100, {
+        falloff: 0.5,
+      });
+      pt.force.add(rootForce);
     });
 
     // Apply force to velocity and velocity to position
@@ -58,11 +74,23 @@ allMasks["particles"] = {
       pt.addMultiple(pt.velocity, dt);
 
       // Limit the velocity
-      pt.velocity.constrainMagnitude(1, 100);
+      pt.velocity.mult(0.98);
+      pt.velocity.constrainMagnitude(1, 10000);
     });
 
     this.particles.forEach((pt) => {
-      pt.drawArrow(p, pt.force, { m: 0.1, color: [0, 0, 0] });
+      pt.drawArrow(p, pt.force, { m: 1, color: [0, 0, 0] });
+    });
+
+    // Draw some beard triangles
+    this.particles.forEach((pt) => {
+      p.fill(100, 100, 40 + 10 * pt.beardLayer);
+      p.beginShape();
+      p.vertex(...pt.original);
+      p.vertex(...pt.previous);
+      p.vertex(...pt);
+
+      p.endShape();
     });
   },
 };
