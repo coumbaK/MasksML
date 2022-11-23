@@ -127,9 +127,9 @@ function computeVoronoi(bbox, pts) {
      return [edge.rSite, edge.va];
     
     
-    if (edge.lSite === site) return [edge.rSite, edge.va];
+    if (edge.lSite === site) return [edge.rSite, edge.va, edge.vb];
     
-    return [edge.lSite, edge.vb];
+    return [edge.lSite, edge.vb, edge.va];
   }
   
 //   Process each cell to get its edges neighbors, start point, and angle to neighbor
@@ -138,8 +138,10 @@ function computeVoronoi(bbox, pts) {
    
       let ptsOriginal = [];
       cell.halfedges.forEach((he) => {
-        let [n, pt] = getNeighbor(he.site, he.edge);
+        let [n, pt, pt1] = getNeighbor(he.site, he.edge);
         he.pt = pt;
+        he.pt1 = pt1;
+        
         if (n == null) {
           n = {x: he.pt.x, y:he.pt.y}
         }
@@ -160,6 +162,7 @@ function computeVoronoi(bbox, pts) {
         cell.halfedges.map((he) => new Vector2D(he.pt.x, he.pt.y)),
         cell.halfedges.map((he) => he.angle),
         cell.halfedges.map((he) => he.n?.point),
+         cell.halfedges.map((he) => new Vector2D(he.pt1.x, he.pt1.y)),
       );
     });
   };

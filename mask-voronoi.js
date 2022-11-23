@@ -17,7 +17,7 @@ allMasks["voronoi"] = {
   },
 
   draw(p, face) {
-    let t = p.millis()*.001
+    let t = p.millis() * 0.001;
     p.clear();
 
     //     To make a voronoi diagram, first make the bounding box
@@ -39,57 +39,79 @@ allMasks["voronoi"] = {
 
     // console.log(voronoiPts);
     computeVoronoi(boundingBox, voronoiPts).forEachCell(
-      (center, cellPoints, angles, neighbors) => {
-        // console.log(cellPoints.map(cp => cp.toString()))
+      (center, startPoints, angles, neighbors, endPoints) => {
+        // For each cell, we have access to the center, the cell points, angles, and neighbots
+
+        // Make a temporary point so we don't change the points of the graph on the fly
+        let pt2 = new Vector2D();
+
         p.noFill();
         p.stroke((center.index * 10) % 360, 100, 50);
 
         //       Show the center of the voronoi cell
         // p.circle(...center, 4)
-        let hue = 100
-        
+        let hue = 100;
+
         // Get a color based on... the index
         hue = center.index * 10;
         p.fill(hue % 360, 100, 50, 0.3);
         p.stroke(hue % 360, 100, 80);
 
-         // Get a color based on... position
-        let noiseScale = .05
-        hue = 200*p.noise(center[0]*noiseScale, center[1]*noiseScale, t) + 10*t
+        // Get a color based on... position
+        let noiseScale = 0.05;
+        hue =
+          200 * p.noise(center[0] * noiseScale, center[1] * noiseScale, t) +
+          10 * t;
         p.fill(hue % 360, 100, 50, 0.3);
         p.stroke(hue % 360, 100, 80);
 
-        
-        // p.beginShape();
-        // cellPoints.forEach((pt) => {
-        //   // pt.lerpTo(center, .5)
-        //   pt.moveTowards(center, 5);
-        //   p.vertex(...pt);
-        // });
-        // p.endShape(p.CLOSE);
-
-        // Draw a line to each of the neighboring points        
-        neighbors.forEach((pt) => {
-          if (pt)
-            center.drawLineTo(p, pt)
-        });
-        
-//  Swuigglier: draw curves through the edge point, but also the neighbor
+        // Draw this cell as a 
         p.beginShape();
-        let pt2 = new Vector()
-        cellPoints.forEach((pt, index) => {
-          let n = neighbors[index]
-         if (n) {
-           pt2.setTo(n)
-           n.ler
-            p.curveVertex(...n);
-         }
-           
-          
-          p.curveVertex(...pt);
-         
+        startPoints.forEach((pt) => {
+          pt2.setTo(pt);
+          // pt2.lerpTo(center, .5)
+          pt2.moveTowards(center, 5);
+          p.vertex(...pt2);
         });
         p.endShape(p.CLOSE);
+
+        // ---------------------
+        //         Or do triangles instead
+        //         startPoints.forEach((pt, index) => {
+        //           let pt2 = endPoints[index]
+        //           let angle = angles[index]
+        //            p.fill(hue % 360, 100, 50 + 10*angle, .6);
+
+        //           p.beginShape();
+
+        //           p.vertex(...pt);
+        //            p.vertex(...pt2);
+        //            p.vertex(...center);
+        //           p.endShape(p.CLOSE);
+        //         });
+
+         // ---------------------
+       // Draw a line to each of the neighboring points
+        // neighbors.forEach((pt) => {
+        //   if (pt) center.drawLineTo(p, pt);
+        // });
+
+        //         // ------------
+        //         //  Swuigglier: draw curves through the edge point, but also the neighbor
+        //         // How much should we move toward the neighbor? make it ... uh, sin-wave?
+        //         p.beginShape();
+
+        //         startPoints.forEach((pt, index) => {
+        //           let n = neighbors[index];
+        //           if (n) {
+        //             pt2.setTo(n);
+        //             pt2.lerpTo(center, Math.sin(t));
+        //             p.curveVertex(...pt2);
+        //           }
+
+        //           p.curveVertex(...pt);
+        //         });
+        //         p.endShape(p.CLOSE);
       }
     );
   },
