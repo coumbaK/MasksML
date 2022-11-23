@@ -120,7 +120,19 @@ function computeVoronoi(bbox, pts) {
   console.log(diagram)
   diagram.forEachCell = (fxn) => {
     diagram.cells.forEach((cell) => {
-      fxn(cell.site.point)
+      
+      // OK, lets get all our edge points
+      let points = cell.halfedges.map(he => {
+        // console.log(he)
+        let pt = he.edge.va
+        if (he.rSite == cell.site)
+          pt = he.edge.vb
+         let v = new Vector2D(pt.x,pt.y)
+         return v
+      })
+      console.log(points)
+      fxn(cell.site.point, points)
+      
     });
   };
   return diagram;

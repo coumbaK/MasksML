@@ -101,6 +101,17 @@ class Vector2D extends Array {
     this[0] = v0[0]*(1-pct) + v1[0]*(pct)
     this[1] = v0[1]*(1-pct) + v1[1]*(pct)
   }
+  
+  lerpTo(v, pct) {
+     this[0] = this[0]*(1-pct) + v[0]*(pct)
+    this[1] = this[1]*(1-pct) + v[1]*(pct)
+  }
+  
+   moveTowards(v, dist) {
+     let dx = v[0]this[0]
+     this[0] = this[0]*(1-pct) + v[0]*(pct)
+    this[1] = this[1]*(1-pct) + v[1]*(pct)
+  }
 
   setToRandom(x0, x1, y0, y1) {
     if (
