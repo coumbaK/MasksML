@@ -20,6 +20,7 @@ allMasks["voronoi"] = {
       p.beginShape()
       cellPoints.forEach(pt => {
         pt.lerpTo(center, .5)
+        // pt.moveTowards(center, 5)
         p.vertex(...pt)
       })
       p.endShape(p.CLOSE)

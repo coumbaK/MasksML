@@ -118,23 +118,32 @@ function computeVoronoi(bbox, pts) {
 
   let diagram = voronoi.compute(sites, bbox);
   console.log(diagram)
+  
+  function angleTo(s0, s1) {
+    return atan2(s1.y - s0.y, s1.x - s0.x)
+  }
+  
   diagram.forEachCell = (fxn) => {
     diagram.cells.forEach((cell) => {
       
-      // OK, lets get all our edge points
-      let points = cell.halfedges.map(he => {
-        // console.log(he)
-        let pt = he.edge.va
-        if (he.rSite == cell.site)
-          pt = he.edge.vb
-         let v = new Vector2D(pt.x,pt.y)
-         return v
+     
+      let ptsOriginal = []
+      cell.halfedges.sort((he0, he1) => {
+        return he0.
       })
-      console.log(points)
-      fxn(cell.site.point, points)
+     
+      
+      
+      // // OK, lets get all our edge points
+      // let points = ptsOriginal.map(pt => {
+      //    return new Vector2D(pt.x,pt.y)
+      // })
+      // console.log(points)
+      // fxn(cell.site.point, points)
       
     });
   };
   return diagram;
 }
+
 

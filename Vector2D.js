@@ -100,17 +100,31 @@ class Vector2D extends Array {
   setToLerp(v0, v1, pct) {
     this[0] = v0[0]*(1-pct) + v1[0]*(pct)
     this[1] = v0[1]*(1-pct) + v1[1]*(pct)
+    return this
   }
   
   lerpTo(v, pct) {
      this[0] = this[0]*(1-pct) + v[0]*(pct)
     this[1] = this[1]*(1-pct) + v[1]*(pct)
+    return this
   }
   
    moveTowards(v, dist) {
-     let dx = v[0]this[0]
-     this[0] = this[0]*(1-pct) + v[0]*(pct)
-    this[1] = this[1]*(1-pct) + v[1]*(pct)
+     let dx = v[0] - this[0]
+     let dy = v[1] - this[1]
+     let d = Math.sqrt(dx*dx + dy*dy)
+     
+//      Skip out early
+     if (d == 0)
+       return this
+     
+//      if (d < dist)
+//        this.setTo(v)
+//      else {
+     this[0] += dx*dist/d
+     this[1] += dy*dist/d
+
+    return this
   }
 
   setToRandom(x0, x1, y0, y1) {
