@@ -121,6 +121,7 @@ window.addEventListener("load", function () {
             //   console.log(facePredictionCount, this.facePredictions)
           });
         });
+        console.log(this.facemesh )
       },
 
       switchInput() {

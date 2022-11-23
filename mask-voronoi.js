@@ -17,6 +17,7 @@ allMasks["voronoi"] = {
   },
 
   draw(p, face) {
+    let t = p.millis()*.001
     p.clear();
 
     //     To make a voronoi diagram, first make the bounding box
@@ -53,22 +54,42 @@ allMasks["voronoi"] = {
         p.stroke(hue % 360, 100, 80);
 
          // Get a color based on... position
-        hue = 100*p.noise(center[0], center[1])
+        let noiseScale = .05
+        hue = 200*p.noise(center[0]*noiseScale, center[1]*noiseScale, t) + 10*t
         p.fill(hue % 360, 100, 50, 0.3);
         p.stroke(hue % 360, 100, 80);
 
         
+        // p.beginShape();
+        // cellPoints.forEach((pt) => {
+        //   // pt.lerpTo(center, .5)
+        //   pt.moveTowards(center, 5);
+        //   p.vertex(...pt);
+        // });
+        // p.endShape(p.CLOSE);
+
+        // Draw a line to each of the neighboring points        
+        neighbors.forEach((pt) => {
+          if (pt)
+            center.drawLineTo(p, pt)
+        });
+        
+//  Swuigglier: draw curves through the edge point, but also the neighbor
         p.beginShape();
-        cellPoints.forEach((pt) => {
-          // pt.lerpTo(center, .5)
-          pt.moveTowards(center, 5);
-          p.vertex(...pt);
+        let pt2 = new Vector()
+        cellPoints.forEach((pt, index) => {
+          let n = neighbors[index]
+         if (n) {
+           pt2.setTo(n)
+           n.ler
+            p.curveVertex(...n);
+         }
+           
+          
+          p.curveVertex(...pt);
+         
         });
         p.endShape(p.CLOSE);
-
-        neighbors.forEach((pt) => {
-          // center.drawLineTo(p, pt)
-        });
       }
     );
   },

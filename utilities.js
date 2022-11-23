@@ -140,6 +140,9 @@ function computeVoronoi(bbox, pts) {
       cell.halfedges.forEach((he) => {
         let [n, pt] = getNeighbor(he.site, he.edge);
         he.pt = pt;
+        if (n == null) {
+          n = {x: he.pt.x, y:he.pt.y}
+        }
         he.n = n;
        
         he.angle = angleTo(cell.site, he.pt);
