@@ -13,27 +13,45 @@ allMasks["particles"] = {
       return particle
     }
     
-    let count = 80;
-    for (var i = 0; i < count; i++) {
-      let pt = new Vector2D();
-      let r = 10 * i ** 0.7 + 90;
-      let theta = i ** 0.7;
-      let particle = makeParticle()
-      pt.setToPolar(r, theta);
-      pt.add(p.width / 2, p.height / 2);
-      this.particles.push(pt);
+    face.sides.forEach(side => {
+      let beardContour = side.face[0].slice(0, 10)
+      
+      beardContour.forEach(() => {
+     
+      })
+    })
+     
     }
   },
 
   draw(p, face) {
-     p.clear()
+    let t = p.millis()*.01
+    let dt = p.deltaTime*.001
+    
+    p.clear()
     this.particles.forEach(pt => p.circle(...pt, 4))
     
     // Set the forces
     this.particles.forEach(pt => {
+      // console.log(pt)
       // reset forces
       pt.force.mult(0)
+      let noseForce = pt.getForceTowardsPoint(face.nose, 10)
+      pt.force.add(noseForce)
     })
     
+     // Apply force to velocity and velocity to position
+    this.particles.forEach(pt => {
+      pt.velocity.addMultiple(pt.force, dt)
+       pt.addMultiple(pt.velocity, dt)
+      
+      // Limit the velocity
+      pt.velocity.constrainMagnitude(1, 100)
+      
+    })
+    
+    this.particles.forEach(pt => {
+      pt.drawArrow(p, pt.force, { m:.1, color: [0, 0, 0] }) 
+    })
   },
 };
