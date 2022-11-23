@@ -125,7 +125,7 @@ class Face {
     //     All faces have 468 points
     this.points = [];
     for (var i = 0; i < LANDMARK_COUNT; i++) {
-      let pt = new Vector2D(0, 0);
+      let pt = new Vector2D(Math.random()*400, Math.random()*400);
       pt.index = i;
       this.points[i] = pt;
     }

@@ -102,18 +102,27 @@ function HSLToHex(h, s, l) {
 let voronoi = new Voronoi();
 
 function computeVoronoi(bbox, pts) {
+//   Is pts a list of vectors, or a list of lists of vectors?
+  if (!Array.isArray(pts) || !Array.isArray(pts[0]))
+    throw("Needs a list of points")
+  
+  if (Array.isArray(pts[0][0])) {
+    pts = [].concat.apply([], pts);
+  }
+  
+  
   let sites = [];
   pts.forEach((v) => {
     sites.push({ x: v[0], y: v[1], point: v });
   });
 
   let diagram = voronoi.compute(sites, bbox);
+  console.log(diagram)
   diagram.forEachCell = (fxn) => {
     diagram.cells.forEach((cell) => {
-      fxn(cell.site)
+      fxn(cell.site.point)
     });
   };
   return diagram;
 }
 
-export { hexToHSL, quickdrawToVectors, HSLToHex, computeVoronoi };

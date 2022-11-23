@@ -110,7 +110,7 @@ window.addEventListener("load", function () {
 
         // When the model is loaded
         function modelLoaded() {
-          console.log(facemesh);
+          
           console.log("Model Loaded!");
         }
         const facemesh = ml5.facemesh(video, modelLoaded);
