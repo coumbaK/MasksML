@@ -13,20 +13,21 @@ allMasks["particles"] = {
       return particle;
     }
 
-    for (var i = 0; i < 4; i++) {
+    for (var i = 0; i < 3; i++) {
       face.sides.forEach((side) => {
-        let faceContour = side.face[0];
+        let faceContour = side.face[i];
         let startIndex = 10;
         let beardContour = faceContour.slice(startIndex);
         let previousPoint = faceContour[startIndex - 1];
 
-        beardContour.forEach((originalPoint) => {
+        beardContour.forEach((originalPoint, index) => {
           let particle = makeParticle();
           particle.setTo(originalPoint);
-          particle.lerpTo*
+          particle.lerpTo(face.nose, -.3*i)
           
           particle.type = "beard";
           particle.beardLayer = i;
+          particle.beardLength = index*.2 + 1
           particle.previous = previousPoint;
           particle.original = originalPoint;
           this.particles.push(particle);
@@ -35,6 +36,31 @@ allMasks["particles"] = {
           previousPoint = originalPoint;
         });
       });
+    }
+    
+    for (var i = 0; i < 3; i++) {
+        let faceContour = face.mouth[i];
+        let startIndex = 1;
+        let endIndex = 10;
+        let beardContour = faceContour.slice(startIndex, endIndex);
+        let previousPoint = faceContour[startIndex -1];
+
+        beardContour.forEach((originalPoint, index) => {
+          let particle = makeParticle();
+          particle.setTo(originalPoint);
+          particle.lerpTo(face.nose, -.3*i)
+          
+          particle.type = "mustache";
+          particle.beardLayer = i;
+          particle.beardLength = 2
+          particle.previous = previousPoint;
+          particle.original = originalPoint;
+          this.particles.push(particle);
+
+          // Store the previous
+          previousPoint = originalPoint;
+        });
+      
     }
   },
 
@@ -60,8 +86,9 @@ allMasks["particles"] = {
 
       // But attracted to your offset point
       let offsetPoint = new Vector2D();
-      let pct = -0.5 * (pt.beardLayer + 1);
-      offsetPoint.setToLerp(pt.original, face.nose, -0.5);
+      let pct = -0.5 * (pt.beardLayer + 1 + pt.beardLength);
+      
+      offsetPoint.setToLerp(pt.original, face.nose, pct);
       let rootForce = pt.getForceTowardsPoint(offsetPoint, 100, {
         falloff: 0.5,
       });
@@ -79,13 +106,22 @@ allMasks["particles"] = {
     });
 
     this.particles.forEach((pt) => {
-      pt.drawArrow(p, pt.force, { m: 1, color: [0, 0, 0] });
+      pt.drawArrow(p, pt.force, { m: .1, color: [0, 0, 0] });
     });
 
     // Draw some beard triangles
     this.particles.forEach((pt) => {
-      p.fill(100, 100, 40 + 10 * pt.beardLayer);
-      p.beginShape();
+      let hue = 100
+      if (pt.type === "mustache")
+        hue = 200
+      
+      // this gives it a little more fill
+       p.fill(hue, 100, 40 + 10 * pt.beardLayer - 20);
+      p.circle(...pt.original, 10)
+      
+       p.fill(hue, 100, 40 + 10 * pt.beardLayer);
+     p.beginShape();
+     
       p.vertex(...pt.original);
       p.vertex(...pt.previous);
       p.vertex(...pt);

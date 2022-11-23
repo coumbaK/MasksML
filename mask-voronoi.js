@@ -79,18 +79,18 @@ allMasks["voronoi"] = {
 
         // ---------------------
         //         Or do triangles instead
-        //         startPoints.forEach((pt, index) => {
-        //           let pt2 = endPoints[index]
-        //           let angle = angles[index]
-        //            p.fill(hue % 360, 100, 50 + 10*angle, .6);
+//                 startPoints.forEach((pt, index) => {
+//                   let pt2 = endPoints[index]
+//                   let angle = angles[index]
+//                    p.fill(hue % 360, 100, 50 + 10*angle, .6);
 
-        //           p.beginShape();
+//                   p.beginShape();
 
-        //           p.vertex(...pt);
-        //            p.vertex(...pt2);
-        //            p.vertex(...center);
-        //           p.endShape(p.CLOSE);
-        //         });
+//                   p.vertex(...pt);
+//                    p.vertex(...pt2);
+//                    p.vertex(...center);
+//                   p.endShape(p.CLOSE);
+//                 });
 
          // ---------------------
        // Draw a line to each of the neighboring points
