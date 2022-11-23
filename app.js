@@ -55,7 +55,7 @@ window.addEventListener("load", function () {
     watch: {
       selectedMask() {
         console.log("SELECTED MASK", this.selectedID);
-        this.selectedMask?.setup?.(p);
+        this.selectedMask?.setup?.(p, face);
         localStorage.setItem("lastMask", this.selectedID);
       },
     },
@@ -73,7 +73,7 @@ window.addEventListener("load", function () {
             p.ellipseMode(p.RADIUS);
 
             // Initialize the first mask
-            this.selectedMask?.setup?.(p);
+            this.selectedMask?.setup?.(p, face);
           });
 
         p.draw = () => {
