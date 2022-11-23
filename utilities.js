@@ -120,26 +120,33 @@ function computeVoronoi(bbox, pts) {
   console.log(diagram)
   
   function angleTo(s0, s1) {
-    return atan2(s1.y - s0.y, s1.x - s0.x)
+    return Math.atan2(s1.y - s0.y, s1.x - s0.x)
   }
   
+   function getNeighbor(site, edge) {
+     if (edge.lSite === site)
+       return [edge.rSite, edge.va]
+     return [edge.lSite, edge.vb]
+  }
   diagram.forEachCell = (fxn) => {
     diagram.cells.forEach((cell) => {
       
-     
+     console.log(cell.site.point.toString())
       let ptsOriginal = []
+      cell.halfedges.forEach(he => {
+        [n, pt] = getNeighbor(he.site, he.edge)
+        he.pt = pt
+        he.neighbor = n
+        he.angle = angleTo(cell.site, neighbor)
+        
+      })
       cell.halfedges.sort((he0, he1) => {
-        return he0.
+        
+        return he0.angle - he1.angle
       })
      
-      
-      
-      // // OK, lets get all our edge points
-      // let points = ptsOriginal.map(pt => {
-      //    return new Vector2D(pt.x,pt.y)
-      // })
-      // console.log(points)
-      // fxn(cell.site.point, points)
+      fxn(cell.site.point, 
+         cell.halfedges.map(he => new Vector(he.n.x, he.n.y) )
       
     });
   };
