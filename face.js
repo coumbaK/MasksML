@@ -121,6 +121,7 @@ const LANDMARK_COUNT = 468;
 
 class Face {
   constructor() {
+    let predictionCount = -1
     
     //     All faces have 468 points
     this.points = [];
@@ -163,6 +164,8 @@ class Face {
   }
 
   setTo(prediction) {
+    this.predictionCount++
+    
     // console.log("set to prediction", prediction)
     if (prediction) {
       let predictedPts = prediction.scaledMesh;

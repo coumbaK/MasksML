@@ -55,7 +55,7 @@ window.addEventListener("load", function () {
     watch: {
       selectedMask() {
         console.log("SELECTED MASK", this.selectedID);
-        this.selectedMask?.setup?.(p);
+        this.hasBeenSetup = false;
         localStorage.setItem("lastMask", this.selectedID);
       },
     },
@@ -71,14 +71,14 @@ window.addEventListener("load", function () {
             p.createCanvas(CANVAS_WIDTH, CANVAS_HEIGHT);
             p.colorMode(p.HSL, 360, 100, 100);
             p.ellipseMode(p.RADIUS);
-
-            // Initialize the first mask
-            this.selectedMask?.setup?.(p);
           });
 
         p.draw = () => {
           // face.drawDebug(p);
-          this.selectedMask.draw(p, face);
+          if (this.hasBeenSetup) this.selectedMask.draw(p, face);
+          else {
+            console.log("...waiting for face data")
+          }
         };
 
         p.mouseClicked = () => {
@@ -105,23 +105,28 @@ window.addEventListener("load", function () {
       startFaceDetection() {
         console.log("STARTING FACE DETECTION ON VIDEO");
         let video = this.$refs.video;
-        // Create a new facemesh method
-        let facePredictionCount = 0;
 
+        face.predictionCount = 0;
         this.facemesh = ml5.facemesh(video, () => {
           console.log("Model Loaded!");
+
           // Listen to new 'face' events
           this.facemesh.on("face", (results) => {
-            facePredictionCount++;
-            // console.log("new face")
+            // New face prediction!
 
             this.facePredictions = results;
             face.setTo(this.facePredictions[0]);
-            // if (facePredictionCount%10==0)
-            //   console.log(facePredictionCount, this.facePredictions)
+
+            // Setup the mask if not
+            // Initialize the first mask
+            if (!this.hasBeenSetup) {
+              console.log("Setup", this.selectedMask)
+              this.selectedMask?.setup?.(p, face);
+              this.hasBeenSetup = true;
+            }
           });
         });
-        console.log(this.facemesh )
+        console.log(this.facemesh);
       },
 
       switchInput() {
@@ -165,6 +170,8 @@ window.addEventListener("load", function () {
       let lastID = localStorage.getItem("lastMask");
       if (!allMasks[lastID]) lastID = Object.keys(allMasks)[0];
       return {
+        hasBeenSetup: false,
+
         webcamMode: false,
         webcamStarted: false,
         allMasks: allMasks,
@@ -172,6 +179,7 @@ window.addEventListener("load", function () {
 
         sourceURL: VIDEO_SRC[0],
         sources: VIDEO_SRC,
+
         facePredictions: [],
       };
     },
