@@ -221,6 +221,11 @@ class Vector2D extends Array {
     p.pop();
     return this
   }
+  
+  drawLineTo(p, v) {
+    p.line(...v, ...this)
+    return this
+  }
   //======================
   // Drawing things
 

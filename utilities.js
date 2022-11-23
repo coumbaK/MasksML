@@ -102,55 +102,55 @@ function HSLToHex(h, s, l) {
 let voronoi = new Voronoi();
 
 function computeVoronoi(bbox, pts) {
-//   Is pts a list of vectors, or a list of lists of vectors?
+  //   Is pts a list of vectors, or a list of lists of vectors?
   if (!Array.isArray(pts) || !Array.isArray(pts[0]))
-    throw("Needs a list of points")
-  
+    throw "Needs a list of points";
+
   if (Array.isArray(pts[0][0])) {
     pts = [].concat.apply([], pts);
   }
-  
-  
+
   let sites = [];
   pts.forEach((v) => {
     sites.push({ x: v[0], y: v[1], point: v });
   });
 
   let diagram = voronoi.compute(sites, bbox);
-  console.log(diagram)
-  
+  console.log(diagram);
+
   function angleTo(s0, s1) {
-    return Math.atan2(s1.y - s0.y, s1.x - s0.x)
+    return Math.atan2(s1.y - s0.y, s1.x - s0.x);
+  }
+
+  function getNeighbor(site, edge) {
+    if (edge.lSite === site) return [edge.rSite, edge.va];
+    return [edge.lSite, edge.vb];
   }
   
-   function getNeighbor(site, edge) {
-     if (edge.lSite === site)
-       return [edge.rSite, edge.va]
-     return [edge.lSite, edge.vb]
-  }
+//   Process each cell to get its edges neighbors, start point, and angle to neighbor
   diagram.forEachCell = (fxn) => {
     diagram.cells.forEach((cell) => {
+      console.log(cell.site.point.toString());
+      let ptsOriginal = [];
+      cell.halfedges.forEach((he) => {
+        let [n, pt] = getNeighbor(he.site, he.edge);
+        he.pt = pt;
+        he.n = n;
+        he.angle = angleTo(cell.site, n);
+      });
       
-     console.log(cell.site.point.toString())
-      let ptsOriginal = []
-      cell.halfedges.forEach(he => {
-        [n, pt] = getNeighbor(he.site, he.edge)
-        he.pt = pt
-        he.neighbor = n
-        he.angle = angleTo(cell.site, neighbor)
-        
-      })
       cell.halfedges.sort((he0, he1) => {
-        
-        return he0.angle - he1.angle
-      })
-     
-      fxn(cell.site.point, 
-         cell.halfedges.map(he => new Vector(he.n.x, he.n.y) )
+        return he0.angle - he1.angle;
+      });
       
+
+      fxn(
+        cell.site.point,
+        cell.halfedges.map((he) => new Vector2D(he.pt.x, he.pt.y)),
+        cell.halfedges.map((he) => he.angle),
+        cell.halfedges.map((he) => he.n.point),
+      );
     });
   };
   return diagram;
 }
-
-
