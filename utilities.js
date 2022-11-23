@@ -116,7 +116,7 @@ function computeVoronoi(bbox, pts) {
   });
 
   let diagram = voronoi.compute(sites, bbox);
-  console.log(diagram);
+  // console.log(diagram);
 
   function angleTo(s0, s1) {
     return Math.atan2(s1.y - s0.y, s1.x - s0.x);

@@ -30,16 +30,16 @@ window.addEventListener("load", function () {
           <option v-for="maskID in Object.keys(allMasks)">{{maskID}}</option>
         </select>
         <button @click="switchInput">webcam</button>
+        {{webcamMode}}
       </div>
-	    <div id="view">
+	    <div id="view" ref="view">
+        
         
         <!-- recorded video -->         
-        <video controls muted id="video" ref="video" crossorigin="anonymous" v-if="true">
+        <video controls muted id="video" class="main-video" ref="video" crossorigin="anonymous" v-if="!webcamMode">
           <source :src="sourceURL" type="video/mp4">
         </video>
         
-        <!-- live webcam -->         
-        <video id="webcam" ref="webcam" />
         
         <div ref="canvasHolder" class="canvas-holder"></div>		
       </div>
@@ -55,7 +55,7 @@ window.addEventListener("load", function () {
     watch: {
       selectedMask() {
         console.log("SELECTED MASK", this.selectedID);
-        this.selectedMask?.setup?.(p, face);
+        this.selectedMask?.setup?.(p);
         localStorage.setItem("lastMask", this.selectedID);
       },
     },
@@ -73,7 +73,7 @@ window.addEventListener("load", function () {
             p.ellipseMode(p.RADIUS);
 
             // Initialize the first mask
-            this.selectedMask?.setup?.(p, face);
+            this.selectedMask?.setup?.(p);
           });
 
         p.draw = () => {
@@ -92,7 +92,7 @@ window.addEventListener("load", function () {
       CANVAS_EL.style.height = CANVAS_HEIGHT + "px";
 
       p = new p5(s, CANVAS_EL);
-  
+
       // When the video is loaded, start face detection
       let video = this.$refs.video;
       video.addEventListener("loadeddata", (event) => {
@@ -108,49 +108,54 @@ window.addEventListener("load", function () {
         // Create a new facemesh method
         let facePredictionCount = 0;
 
-        // When the model is loaded
-        function modelLoaded() {
-          
+        this.facemesh = ml5.facemesh(video, () => {
           console.log("Model Loaded!");
-        }
-        const facemesh = ml5.facemesh(video, modelLoaded);
+          // Listen to new 'face' events
+          this.facemesh.on("face", (results) => {
+            facePredictionCount++;
+            // console.log("new face")
 
-        // Listen to new 'face' events
-        facemesh.on("face", (results) => {
-          facePredictionCount++;
-          // console.log("new face")
-
-          this.facePredictions = results;
-          face.setTo(this.facePredictions[0]);
-          // if (facePredictionCount%10==0)
-          //   console.log(facePredictionCount, this.facePredictions)
+            this.facePredictions = results;
+            face.setTo(this.facePredictions[0]);
+            // if (facePredictionCount%10==0)
+            //   console.log(facePredictionCount, this.facePredictions)
+          });
         });
       },
 
       switchInput() {
-        console.log(this);
-        let video = this.$refs.video;
-        console.log("Switch input");
-        navigator.mediaDevices
-          .getUserMedia({ video: true, audio: true })
-          .then((stream) => {
-            const webcam = this.$refs.webcam;
-            webcam.srcObject = stream;
-
-            webcam.addEventListener(
-              "loadeddata",
-              (event) => {
-                console.log("Loaded data!");
-                // this.startFaceDetection()
-              },
-              () => {
-                console.log("ERR");
-              }
-            );
-          })
-          .catch((err) => {
-            console.log(err);
+        console.log("toggle input", this.webcamMode);
+        if (!this.webcamStarted) {
+          console.log("start new webcam stream");
+          // Start the webcam stream
+          this.webcam = p.createCapture(p.VIDEO, () => {
+            this.webcamStarted = true;
+            // Only change video when the video has loaded
+            this.facemesh.video = camElt;
+            this.webcamMode = true;
           });
+
+          let camElt = this.webcam.elt;
+
+          // Move the webcam element to the view
+          console.log(this);
+          camElt.setAttribute("id", "webcam");
+          camElt.setAttribute("class", "main-video");
+          this.$refs.view.append(camElt);
+        } else {
+          //           We already have the webcam, just toggle it
+          if (this.webcamMode) {
+            console.log("Turn off webcam");
+            this.webcam.stop();
+            this.webcamMode = false;
+            this.webcam.elt.style.display = "none";
+            this.facemesh.video = this.$refs.video;
+            // let el = document.getElementById("webcam")
+          } else {
+            this.facemesh.video = this.webcam.elt;
+            this.webcamMode = true;
+          }
+        }
       },
     },
 
@@ -159,6 +164,8 @@ window.addEventListener("load", function () {
       let lastID = localStorage.getItem("lastMask");
       if (!allMasks[lastID]) lastID = Object.keys(allMasks)[0];
       return {
+        webcamMode: false,
+        webcamStarted: false,
         allMasks: allMasks,
         selectedID: lastID,
 
