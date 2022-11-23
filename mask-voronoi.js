@@ -5,9 +5,16 @@ allMasks["voronoi"] = {
   description: "Showing off Voronoi",
   setup(p, face) {
     
-    let mouse = new Vector2D(p.mouseX, p.mouseY)
+   
+  },
+
+  draw(p, face) {
+    // p.clear();
+
+     let mouse = new Vector2D(p.mouseX, p.mouseY)
     let voronoiPts = [[mouse]];
-    const boundingBox = (0, 0, p.width, p.height);
+    const boundingBox = {xl: 0, xr: p.width || 300, yt: 0, yb: p.height || 300}
+  
     face.sides.forEach((side) => voronoiPts.push(side.eye[0]));
     // console.log(voronoiPts);
     computeVoronoi(boundingBox, voronoiPts).forEachCell((center, cellPoints, angles, neighbors) => {
@@ -26,7 +33,7 @@ allMasks["voronoi"] = {
       p.beginShape()
       cellPoints.forEach(pt => {
         // pt.lerpTo(center, .5)
-        // pt.moveTowards(center, 5)
+        pt.moveTowards(center, 5)
         p.vertex(...pt)
       })
       p.endShape(p.CLOSE)
@@ -36,11 +43,5 @@ allMasks["voronoi"] = {
       })
       
     });
-  },
-
-  draw(p, face) {
-    // p.clear();
-
-    
   },
 };

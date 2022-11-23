@@ -141,11 +141,9 @@ function computeVoronoi(bbox, pts) {
         let [n, pt] = getNeighbor(he.site, he.edge);
         he.pt = pt;
         he.n = n;
-        he.angle = angleTo(cell.site, n);
-        if (isNaN(he.edge.va.x) || isNaN(he.edge.vb.x)) {
-          console.log(he.edge.va, he.edge.vb)
-          
-        }
+       
+        he.angle = angleTo(cell.site, he.pt);
+      
         // console.log(he.pt)
       });
       
@@ -158,7 +156,7 @@ function computeVoronoi(bbox, pts) {
         cell.site.point,
         cell.halfedges.map((he) => new Vector2D(he.pt.x, he.pt.y)),
         cell.halfedges.map((he) => he.angle),
-        cell.halfedges.map((he) => he.n.point),
+        cell.halfedges.map((he) => he.n?.point),
       );
     });
   };

@@ -118,11 +118,12 @@ class Vector2D extends Array {
      if (d == 0)
        return this
      
-//      if (d < dist)
-//        this.setTo(v)
-//      else {
-     this[0] += dx*dist/d
-     this[1] += dy*dist/d
+     if (d < dist)
+       this.setTo(v)
+     else {
+       this[0] += dx*dist/d
+       this[1] += dy*dist/d
+     }
 
     return this
   }
@@ -135,6 +136,7 @@ class Vector2D extends Array {
       y1 === undefined
     )
       throw `passed undefined value to setToRandom ${arguments}`;
+    
     this[0] = Math.random() * (x1 - x0) + x0;
     this[1] = Math.random() * (y1 - y0) + y0;
     return this
