@@ -65,7 +65,9 @@ allMasks["voronoi"] = {
         p.fill(hue % 360, 100, 50, 0.3);
         p.stroke(hue % 360, 100, 80);
 
-        // Draw this cell as a 
+        // ---------------------
+        // DRAWING THE SHAPE
+        // Draw this cell as a shape
         p.beginShape();
         startPoints.forEach((pt) => {
           pt2.setTo(pt);
