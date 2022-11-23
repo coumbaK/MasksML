@@ -123,27 +123,37 @@ function computeVoronoi(bbox, pts) {
   }
 
   function getNeighbor(site, edge) {
+    if (isNaN(edge.vb.x) || isNaN(edge.vb.y))
+     return [edge.rSite, edge.va];
+    
+    
     if (edge.lSite === site) return [edge.rSite, edge.va];
+    
     return [edge.lSite, edge.vb];
   }
   
 //   Process each cell to get its edges neighbors, start point, and angle to neighbor
   diagram.forEachCell = (fxn) => {
     diagram.cells.forEach((cell) => {
-      console.log(cell.site.point.toString());
+   
       let ptsOriginal = [];
       cell.halfedges.forEach((he) => {
         let [n, pt] = getNeighbor(he.site, he.edge);
         he.pt = pt;
         he.n = n;
         he.angle = angleTo(cell.site, n);
+        if (isNaN(he.edge.va.x) || isNaN(he.edge.vb.x)) {
+          console.log(he.edge.va, he.edge.vb)
+          
+        }
+        // console.log(he.pt)
       });
       
       cell.halfedges.sort((he0, he1) => {
         return he0.angle - he1.angle;
       });
       
-
+      
       fxn(
         cell.site.point,
         cell.halfedges.map((he) => new Vector2D(he.pt.x, he.pt.y)),

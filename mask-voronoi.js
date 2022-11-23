@@ -11,7 +11,7 @@ allMasks["voronoi"] = {
     face.sides.forEach((side) => voronoiPts.push(side.eye[0]));
     // console.log(voronoiPts);
     computeVoronoi(boundingBox, voronoiPts).forEachCell((center, cellPoints, angles, neighbors) => {
-      // console.log(center)
+      // console.log(cellPoints.map(cp => cp.toString()))
       p.noFill()
        p.stroke((center.index*10)%360, 100, 50)
      
@@ -26,7 +26,7 @@ allMasks["voronoi"] = {
       p.beginShape()
       cellPoints.forEach(pt => {
         // pt.lerpTo(center, .5)
-        pt.moveTowards(center, 5)
+        // pt.moveTowards(center, 5)
         p.vertex(...pt)
       })
       p.endShape(p.CLOSE)
