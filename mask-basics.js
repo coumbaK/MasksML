@@ -51,16 +51,15 @@ allMasks["basics"] = {
     // SIDES!
     face.sides.forEach((side, sideIndex) => {
        // Inside a side
-       p.strokeWeight(4)
-       p.circle(...side.eyeCenter, 5)
+       p.strokeWeight(4) 
        p.strokeWeight(1)
              side.face.forEach((contour, index) => {
 
-              let hue = (sideIndex*100 + 10*index)%360
-              p.fill(hue, 100, 50 - 10*index, 1)
+              let hue = (28,84,61)
+              p.fill(hue,  0.2)
                p.stroke(hue, 100, 100 - 10*index, 1)
                drawContour(p, contour, {
-                close: true
+                //close: true
               })
              })})
       
