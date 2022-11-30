@@ -55,15 +55,15 @@ allMasks["basics"] = {
        p.strokeWeight(1)
              side.face.forEach((contour, index) => {
 
-              let hue = (28,84,61)
-              p.fill(hue,  0.2)
+              let hue = '#ef9648'
+              p.fill(hue)
                p.stroke(hue, 100, 100 - 10*index, 1)
                drawContour(p, contour, {
                 //close: true
               })
-             })})
+             })
       
-    /*
+    
       p.stroke(0);
       p.noFill();
       //        drawRibbon(p, side.eye[0], side.eye[1], {
@@ -112,6 +112,6 @@ allMasks["basics"] = {
       p.fill(100)
       p.circle(...sidePoint, 4)
       }
-    });*/
+    })
   },
 };
