@@ -33,13 +33,17 @@ allMasks["basics"] = {
 
     // Using drawPoints
     p.stroke(0, 100, 50);
-    p.noFill();
+    p.fill(0, 100, 50);
     p.strokeWeight(3);
     p.beginShape();
-    drawPoints(p, face.mouth[2].slice(12, 20), {
-      // close: true
+     drawContour(p, face.mouth[2].slice(0,12), {
+      //close: true
     });
-    p.vertex(...face.bottom);
+     drawContour(p, face.mouth[2].slice(12,20), {
+      //close: true
+    });
+    
+    //p.vertex(...face.bottom);
     p.endShape(p.CLOSE);
 
     //drawContour(p, face.centerLine);
