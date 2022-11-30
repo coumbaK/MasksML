@@ -58,11 +58,12 @@ allMasks["basics"] = {
 
               let hue = (sideIndex*100 + 10*index)%360
               p.fill(hue, 100, 50 - 10*index, 1)
-      /         p.stroke(hue, 100, 100 - 10*index, 1)
-      //         drawContour(p, contour, {
-      //           close: true
-      //         })
-      //       })
+               p.stroke(hue, 100, 100 - 10*index, 1)
+               drawContour(p, contour, {
+                close: true
+              })
+             })})
+      
     /*
       p.stroke(0);
       p.noFill();
