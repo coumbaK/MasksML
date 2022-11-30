@@ -55,7 +55,7 @@ allMasks["basics"] = {
        p.strokeWeight(1)
              side.face.forEach((contour, index) => {
 
-              let hue = '#ef9648'
+              let hue = '#ff0000'
               p.fill(hue)
                p.stroke(hue, 100, 100 - 10*index, 1)
                drawContour(p, contour, {
@@ -64,23 +64,24 @@ allMasks["basics"] = {
              })
       
     
-      p.stroke(0);
-      p.noFill();
-      //        drawRibbon(p, side.eye[0], side.eye[1], {
-      //          close: true,
-      //          curve: true,
+      p.stroke(1);
+      p.strokeWeight(10);
+      p.noFill;
+            drawRibbon(p, side.eye[0], side.eye[1], {
+                close: false,
+               curve: true,
 
-      //        })
+              })
 
-      //        drawContour(p, side.eye[0], {
-      //          close: true,
-      //          curve: true,
+             drawContour(p, side.eye[0], {
+                close: true,
+                curve: true})
 
       //          // lerpToPoint: side.eyeCenter
       //        })
 
       p.strokeWeight(0.4);
-      for (var i = 0; i < 10; i++) {
+      /*for (var i = 0; i < 10; i++) {
         drawContour(p, side.eye[0], {
           close: true,
           curve: true,
@@ -96,10 +97,10 @@ allMasks["basics"] = {
           // lerpToPoint: side.eyeCenter,
           lerpToPoint: face.top,
         });
-      }
+      }*/
 
       // Still inside the side loop
-      p.fill(0);
+      /*p.fill(0);
       for (var i = 0; i < 10; i++) {
       let sidePoint = new Vector2D();
       sidePoint.setToLerp(side.eyeCenter, side.eyeOuter, i);
@@ -111,7 +112,7 @@ allMasks["basics"] = {
       });
       p.fill(100)
       p.circle(...sidePoint, 4)
-      }
+      }*/
     })
   },
 };
