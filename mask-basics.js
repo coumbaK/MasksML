@@ -42,8 +42,8 @@ allMasks["basics"] = {
     p.vertex(...face.bottom);
     p.endShape(p.CLOSE);
 
-    drawContour(p, face.centerLine);
-
+    //drawContour(p, face.centerLine);
+  /*
     // SIDES!
     face.sides.forEach((side, sideIndex) => {
       // Inside a side
@@ -108,6 +108,6 @@ allMasks["basics"] = {
       p.fill(100)
       p.circle(...sidePoint, 4)
       }
-    });
+    });*/
   },
 };
