@@ -47,23 +47,23 @@ allMasks["basics"] = {
     p.endShape(p.CLOSE);
 
     //drawContour(p, face.centerLine);
-  /*
+  
     // SIDES!
     face.sides.forEach((side, sideIndex) => {
-      // Inside a side
-      // p.strokeWeight(4)
-      // p.circle(...side.eyeCenter, 5)
-      // p.strokeWeight(1)
-      //       side.face.forEach((contour, index) => {
+       // Inside a side
+       p.strokeWeight(4)
+       p.circle(...side.eyeCenter, 5)
+       p.strokeWeight(1)
+             side.face.forEach((contour, index) => {
 
-      //         let hue = (sideIndex*100 + 10*index)%360
-      //         p.fill(hue, 100, 50 - 10*index, 1)
-      //         p.stroke(hue, 100, 100 - 10*index, 1)
+              let hue = (sideIndex*100 + 10*index)%360
+              p.fill(hue, 100, 50 - 10*index, 1)
+      /         p.stroke(hue, 100, 100 - 10*index, 1)
       //         drawContour(p, contour, {
       //           close: true
       //         })
       //       })
-
+    /*
       p.stroke(0);
       p.noFill();
       //        drawRibbon(p, side.eye[0], side.eye[1], {
