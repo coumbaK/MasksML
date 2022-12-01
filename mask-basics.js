@@ -65,15 +65,15 @@ allMasks["basics"] = {
       
     
       p.stroke(1);
-      p.strokeWeight(10);
+      p.strokeWeight(1);
       p.noFill;
-            drawRibbon(p, side.eye[0], side.eye[1], {
+            drawRibbon(p, side.eye[2], side.eye[1], {
                 close: false,
                curve: true,
 
               })
 
-             drawContour(p, side.eye[0], {
+             drawContour(p, side.eye[2], {
                 close: true,
                 curve: true})
 
