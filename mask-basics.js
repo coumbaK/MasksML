@@ -47,8 +47,22 @@ allMasks["basics"] = {
     //drawContour(p, face.centerLine);
   
     // SIDES!
-    for (var i = 0 ; i< 1;i++){
-      side= face.sides[0]
+  
+    face.sides.forEach((side, sideIndex) => {
+       // Inside a side
+       p.strokeWeight(4) 
+       p.strokeWeight(1)
+             side.face.forEach((contour, index) => {
+
+              let hue = 'white'
+              p.fill(hue)
+               p.stroke(hue, 100, 100 - 10*index, 1)
+               drawContour(p, contour, {
+                //close: true
+              })
+             })
+        for (var i = 0 ; i< 1;i++){
+      var side= face.sides[0]
       p.stroke(1);
       p.strokeWeight(1);
       p.fill('black');
@@ -84,19 +98,6 @@ allMasks["basics"] = {
         });
       }
     }
-    face.sides.forEach((side, sideIndex) => {
-       // Inside a side
-       p.strokeWeight(4) 
-       p.strokeWeight(1)
-             side.face.forEach((contour, index) => {
-
-              let hue = 'white'
-              p.fill(hue)
-               p.stroke(hue, 100, 100 - 10*index, 1)
-               drawContour(p, contour, {
-                //close: true
-              })
-             })
       
     
       
