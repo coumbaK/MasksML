@@ -13,9 +13,7 @@ allMasks["basics"] = {
     let t = p.millis() * 0.001;
 
     //     Vector2D
-    p.circle(...face.nose, 4);
-    p.circle(...face.top, 4);
-    p.circle(...face.bottom, 4);
+    
 
     //     face.mouth an array of contours,
     // each of which is an array of Vecto2D
@@ -55,7 +53,7 @@ allMasks["basics"] = {
        p.strokeWeight(1)
              side.face.forEach((contour, index) => {
 
-              let hue = '#ff0000'
+              let hue = 'white'
               p.fill(hue)
                p.stroke(hue, 100, 100 - 10*index, 1)
                drawContour(p, contour, {
@@ -66,7 +64,7 @@ allMasks["basics"] = {
     
       p.stroke(1);
       p.strokeWeight(1);
-      p.noFill;
+      p.fill('black');
             drawRibbon(p, side.eye[2], side.eye[1], {
                 close: false,
                curve: true,
@@ -114,5 +112,17 @@ allMasks["basics"] = {
       p.circle(...sidePoint, 4)
       }*/
     })
+    p.stroke('#ffb6c1');
+    p.fill('#ffb6c1');
+    p.strokeWeight(3);
+    p.beginShape();
+     drawContour(p, face.mouth[0].slice(0,20), {
+      //close: true
+    });
+    p.fill('#ff6a80');
+    p.stroke('#ff6a80')
+   
+    p.circle(face.top[0],face.mouth[1], 4);
+     
   },
 };
