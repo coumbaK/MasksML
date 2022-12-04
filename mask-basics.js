@@ -17,17 +17,7 @@ allMasks["basics"] = {
 
     //     face.mouth an array of contours,
     // each of which is an array of Vecto2D
-    //     face.mouth.forEach((contour, index) => {
-    //       p.fill(index*50, 100, 50)
-    //       p.beginShape()
-    //       contour.forEach(pt => {
-    //         // p.circle(...pt, 4)
-    //         // p.text("❤️", ...pt)
-    //         p.vertex(...pt)
-    //       })
-
-    //       p.endShape()
-    //     })
+     
 
     // Using drawPoints
     p.stroke(0, 100, 50);
@@ -127,10 +117,22 @@ allMasks["basics"] = {
      drawContour(p, face.mouth[0].slice(0,100), {
       //close: true
     });
-    p.fill('#ff6a80');
-    p.stroke('#ff6a80')
-    
-    p.circle(face.mouth[0][10],face.mouth[0][15], 4);
+    face.mouth.forEach((contour, index) => {
+          p.fill(index*50, 100, 50)
+          if(index==0){
+            p.beginShape()
+            for (var i = 5 ; i<8;i+=1){
+              var pt = contour[i]
+              p.circle(...pt, 4)
+              p.text("❤️", ...pt)
+            }
+        
+
+          p.endShape()
+          }
+          
+         })
+
 
      
   },
