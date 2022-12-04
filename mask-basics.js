@@ -116,13 +116,14 @@ allMasks["basics"] = {
     p.fill('#ffb6c1');
     p.strokeWeight(3);
     p.beginShape();
-     drawContour(p, face.mouth[0].slice(0,20), {
+     drawContour(p, face.mouth[0].slice(0,100), {
       //close: true
     });
     p.fill('#ff6a80');
     p.stroke('#ff6a80')
-   
-    p.circle(face.top[0],face.mouth[1], 4);
+    p.circle(...face.mouth, 4);
+    p.circle(...face.nose, 4);
+
      
   },
 };
