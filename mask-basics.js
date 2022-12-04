@@ -50,21 +50,39 @@ allMasks["basics"] = {
               p.fill(hue)
                p.stroke(hue, 100, 100 - 10*index, 1)
                drawContour(p, contour, {
-                //close: true
+                close: true
               })
              })
-      
+      drawRibbon(p, side.eye[0].slice(0, 10), side.eye[1].slice(0, 10), {
+        curve: true,
+        close: true,
+        
+        side0: {
+          lerpToPoint: side.eyeCenter,
+          lerpPct: (index, pct) => {
+            return -10*p.noise(pct*10 + t)*pct
+          }
+        },
+        side1: {
+           lerpToPoint: side.eyeCenter,
+           lerpPct: 0,
+        }
+      })
      if(sideIndex==0){
          for (var i = 0 ; i< 1;i++){
       var side= face.sides[0]
       p.stroke(1);
       p.strokeWeight(1);
+      
+          
       p.fill('black');
             drawRibbon(p, side.eye[2], side.eye[1], {
                 close: false,
                curve: true,
 
               })
+      
+           
 
              drawContour(p, side.eye[2], {
                 close: true,
@@ -72,6 +90,7 @@ allMasks["basics"] = {
 
       //          // lerpToPoint: side.eyeCenter
       //        })
+          
 
       p.strokeWeight(0.1);
       for (var i = 0; i < 10; i++) {
@@ -121,10 +140,12 @@ allMasks["basics"] = {
           p.fill(index*50, 100, 50)
           if(index==0){
             p.beginShape()
-            for (var i = 5 ; i<8;i+=1){
+            for (var i = 4 ; i<7;i+=2){
               var pt = contour[i]
+              p.fill('#ff6a80');
+              p.stroke('#ff6a80');
               p.circle(...pt, 4)
-              p.text("❤️", ...pt)
+             
             }
         
 
@@ -132,6 +153,8 @@ allMasks["basics"] = {
           }
           
          })
+    
+    
 
 
      
