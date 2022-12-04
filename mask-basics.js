@@ -48,6 +48,24 @@ allMasks["basics"] = {
   
     // SIDES!
 
+      
+       
+    face.sides.forEach((side, sideIndex) => {
+       // Inside a side
+       p.strokeWeight(4) 
+       p.strokeWeight(1)
+             side.face.forEach((contour, index) => {
+
+              let hue = 'white'
+              p.fill(hue)
+               p.stroke(hue, 100, 100 - 10*index, 1)
+               drawContour(p, contour, {
+                //close: true
+              })
+             })
+      
+     if(sideIndex==0){
+         for (var i = 0 ; i< 1;i++){
       var side= face.sides[0]
       p.stroke(1);
       p.strokeWeight(1);
@@ -83,22 +101,8 @@ allMasks["basics"] = {
           lerpToPoint: face.side
         });
       }
-    
-    face.sides.forEach((side, sideIndex) => {
-       // Inside a side
-       p.strokeWeight(4) 
-       p.strokeWeight(1)
-             side.face.forEach((contour, index) => {
-
-              let hue = 'white'
-              p.fill(hue)
-               p.stroke(hue, 100, 100 - 10*index, 1)
-               drawContour(p, contour, {
-                //close: true
-              })
-             })
-      
-    
+    }
+     }
       
 
       // Still inside the side loop
@@ -125,8 +129,8 @@ allMasks["basics"] = {
     });
     p.fill('#ff6a80');
     p.stroke('#ff6a80')
-    p.circle(...face.mouth, 4);
-    p.circle(...face.nose, 4);
+    
+    p.circle(face.mouth[0][10],face.mouth[0][15], 4);
 
      
   },
