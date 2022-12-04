@@ -111,7 +111,15 @@ allMasks["basics"] = {
         });
       }
     }
-     }
+       
+     } 
+      if(sideIndex==1){
+        p.fill('black');
+        
+             drawContour(p, side.eye[1], {
+                close: true,
+                curve: true})
+      }
       
 
       // Still inside the side loop
@@ -146,6 +154,7 @@ allMasks["basics"] = {
               p.stroke('#ff6a80');
               p.circle(...pt, 4)
              
+             
             }
         
 
@@ -153,6 +162,7 @@ allMasks["basics"] = {
           }
           
          })
+    
     
     
 
