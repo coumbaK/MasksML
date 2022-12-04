@@ -47,21 +47,8 @@ allMasks["basics"] = {
     //drawContour(p, face.centerLine);
   
     // SIDES!
-    face.sides.forEach((side, sideIndex) => {
-       // Inside a side
-       p.strokeWeight(4) 
-       p.strokeWeight(1)
-             side.face.forEach((contour, index) => {
-
-              let hue = 'white'
-              p.fill(hue)
-               p.stroke(hue, 100, 100 - 10*index, 1)
-               drawContour(p, contour, {
-                //close: true
-              })
-             })
-      
-    
+    for (var i = 0 ; i< 1;i++){
+      side= face.sides[0]
       p.stroke(1);
       p.strokeWeight(1);
       p.fill('black');
@@ -78,8 +65,8 @@ allMasks["basics"] = {
       //          // lerpToPoint: side.eyeCenter
       //        })
 
-      p.strokeWeight(0.4);
-      /*for (var i = 0; i < 10; i++) {
+      p.strokeWeight(0.1);
+      for (var i = 0; i < 10; i++) {
         drawContour(p, side.eye[0], {
           close: true,
           curve: true,
@@ -93,9 +80,26 @@ allMasks["basics"] = {
           },
 
           // lerpToPoint: side.eyeCenter,
-          lerpToPoint: face.top,
+          lerpToPoint: face.side
         });
-      }*/
+      }
+    }
+    face.sides.forEach((side, sideIndex) => {
+       // Inside a side
+       p.strokeWeight(4) 
+       p.strokeWeight(1)
+             side.face.forEach((contour, index) => {
+
+              let hue = 'white'
+              p.fill(hue)
+               p.stroke(hue, 100, 100 - 10*index, 1)
+               drawContour(p, contour, {
+                //close: true
+              })
+             })
+      
+    
+      
 
       // Still inside the side loop
       /*p.fill(0);
@@ -110,8 +114,8 @@ allMasks["basics"] = {
       });
       p.fill(100)
       p.circle(...sidePoint, 4)
-      }*/
-    })
+      }
+    })*/})
     p.stroke('#ffb6c1');
     p.fill('#ffb6c1');
     p.strokeWeight(3);
