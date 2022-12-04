@@ -47,8 +47,8 @@ allMasks["basics"] = {
     //drawContour(p, face.centerLine);
   
     // SIDES!
-    for (var i = 0 ; i< 1;i++){
-      side= face.sides[0]
+
+      var side= face.sides[0]
       p.stroke(1);
       p.strokeWeight(1);
       p.fill('black');
@@ -83,7 +83,7 @@ allMasks["basics"] = {
           lerpToPoint: face.side
         });
       }
-    }
+    
     face.sides.forEach((side, sideIndex) => {
        // Inside a side
        p.strokeWeight(4) 
