@@ -17,7 +17,7 @@ I used inspiration from Dr kate's examples of eye/ear mask.
 
 ## How does your mask relate to its background?
 
-this mask uses noise so the shape of the ear is constanchanging.
+this mask uses noise so the shape of the ear changes with time.
 
 
 ## What of the Homuncular flexibility terms apply to this mask?  (restoring, replacing, reinventing, ipsimoda remapping, sensory substitution, parasynthetic expression) 
@@ -28,22 +28,22 @@ this mask uses noise so the shape of the ear is constanchanging.
  
 ## How do you feel wearing this mask? 
 
---your answer here--
+this mask makes me feel 
 
 
 
 ## Describe your second mask
 
---your answer here--
+My second mask uses voronoi diagrams and hearts.
 
 ## What inspirations (from the in-class materials or elsewhere) did you use for this mask? 
 
---your answer here (even if you ended up somewhere else!)--
+I used inspiration from Dr Kate's voronoi mask.
 
 
 ## How does your mask relate to its background?
 
---your answer here--
+this mask uses the background to layout the voronoi diagram/
 
 
 ## What of the Homuncular flexibility terms apply to this mask?  (restoring, replacing, reinventing, ipsimoda remapping, sensory substitution, parasynthetic expression) 
@@ -53,7 +53,7 @@ this mask uses noise so the shape of the ear is constanchanging.
  
 ## How do you feel wearing this mask? 
 
---your answer here--
+this mask feels cute because of the hearts and colors.
 
 
 ## List any resources (code, images, etc) you've used, and where you got them from
