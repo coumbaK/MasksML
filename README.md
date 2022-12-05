@@ -1,24 +1,23 @@
 # A8: Masks
 
 ## Your name
-Test McStudent
+Mame Coumba Ka
 
 ## Your Glitch link
-[my page](https://galaxykate-a8.glitch.me)
+[my page](https://coumbak-a8.glitch.me)
 
 
 ## Describe your first mask
 
---your answer here--
+My first mask is an abstract cow mask using face contours and ribbons.
 
 ## What inspirations (from the in-class materials or elsewhere) did you use for this mask? 
 
---your answer here (even if you ended up somewhere else!)--
-
+I used inspiration from Dr kate's examples of eye/ear mask.
 
 ## How does your mask relate to its background?
 
---your answer here--
+this mask uses noise so the shape of the ear is constanchanging.
 
 
 ## What of the Homuncular flexibility terms apply to this mask?  (restoring, replacing, reinventing, ipsimoda remapping, sensory substitution, parasynthetic expression) 

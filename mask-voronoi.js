@@ -31,11 +31,11 @@ allMasks["voronoi"] = {
     voronoiPts.push([mouse]);
     voronoiPts.push(this.particles);
 
-    face.sides.forEach((side) => voronoiPts.push(side.eye[0]));
-    face.sides.forEach((side) => voronoiPts.push(side.eye[2]));
+    //face.sides.forEach((side) => voronoiPts.push(side.eye[0]));
+    //face.sides.forEach((side) => voronoiPts.push(side.eye[2]));
 
     voronoiPts.push(face.mouth[2]);
-    voronoiPts.push(face.centerLine);
+    //voronoiPts.push(face.centerLine);
 
     // console.log(voronoiPts);
     computeVoronoi(boundingBox, voronoiPts).forEachCell(
@@ -77,7 +77,7 @@ allMasks["voronoi"] = {
 
                    var x= pt[0]
                    var y = pt[1]
-                   var size = 5
+                   var size = 25
                    p.vertex(...pt);
                    p.bezierVertex(x - size / 2, y - size / 2, x - size, y + size / 3, x, y + size);
                    p.bezierVertex(x + size, y + size / 3, x + size / 2, y - size / 2, x, y);
