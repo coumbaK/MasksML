@@ -73,7 +73,19 @@ allMasks["voronoi"] = {
           pt2.setTo(pt);
           // pt2.lerpTo(center, .5)
           pt2.moveTowards(center, 5);
-          p.vertex(...pt2);
+          
+
+                   var x= pt[0]
+                   var y = pt[1]
+                   var size = 5
+                   p.vertex(...pt);
+                   p.bezierVertex(x - size / 2, y - size / 2, x - size, y + size / 3, x, y + size);
+                   p.bezierVertex(x + size, y + size / 3, x + size / 2, y - size / 2, x, y);
+                                                                                                    
+            
+   
+
+          
         });
         p.endShape(p.CLOSE);
 
